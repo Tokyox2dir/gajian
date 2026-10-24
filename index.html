@@ -262,6 +262,68 @@
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37,99,235,.5); } 100% { box-shadow: 0 0 0 26px rgba(37,99,235,0); } }
   textarea.in { resize: none; min-height: 64px; line-height: 1.4; }
 
+  /* login */
+  .auth { max-width: 400px; margin: 8vh auto 0; }
+  body.authing nav, body.authing .fab-menu { display: none; }
+  /* titik status sinkron */
+  .sdot { position: absolute; right: 1px; top: 1px; width: 10px; height: 10px; border-radius: 50%; background: var(--muted); border: 2px solid var(--card); }
+  .sdot[data-s="ok"] { background: var(--in); }
+  .sdot[data-s="syncing"] { background: #f59e0b; }
+  .sdot[data-s="error"] { background: var(--out); }
+  .desk { display: none !important; }
+  .layout { display: block; }
+  /* di HP kolom kanan numpuk di bawah kolom kiri: card pertamanya butuh jarak juga */
+  @media (max-width: 899px) { .col-a + .col-b > .card:first-child { margin-top: 12px; } }
+
+  /* ===== tampilan PC / tablet landscape ===== */
+  @media (min-width: 900px) {
+    body { max-width: none; padding: 28px 32px 40px 296px; }
+    body::before { display: none; }
+    body.authing { padding-left: 32px; }
+    #view { max-width: 1160px; margin: 0 auto; }
+    .desk { display: flex !important; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+    .col-b > .dayhead:first-child { margin-top: 4px; }
+    .col-b > .sec:first-child, .col-a > .sec:first-child { margin-top: 4px; }
+    .page-head h1 { font-size: 32px; }
+    .saldo { text-align: left; background: var(--card); border-radius: 20px; padding: 22px; box-shadow: var(--shadow); margin-top: 6px; }
+    .topbar { grid-template-columns: 44px 1fr 44px; }
+
+    nav { left: 16px; top: 16px; bottom: 16px; right: auto; width: 248px; height: auto; max-width: none; margin: 0; display: flex; flex-direction: column; align-items: stretch; padding: 18px 12px; gap: 4px; border-radius: 24px; background: var(--card); -webkit-backdrop-filter: none; backdrop-filter: none; }
+    nav .brand { align-items: center; gap: 10px; font-size: 20px; font-weight: 800; padding: 4px 10px 16px; letter-spacing: -.02em; }
+    nav .brand img { border-radius: 10px; }
+    nav .tab { flex-direction: row; gap: 12px; font-size: 15px; padding: 11px 14px; justify-content: flex-start; margin: 0; font-weight: 600; }
+    nav .navset { margin-top: auto; position: relative; font-size: 14px; min-width: 0; }
+    nav .navset .sdot { position: static; flex: none; border: 0; }
+    .fab { order: 0; width: auto; height: 48px; border-radius: 14px; transform: none; display: flex; gap: 8px; justify-content: center; align-items: center; margin: 4px 0 12px; font-weight: 700; font-size: 15px; box-shadow: 0 6px 16px rgba(37,99,235,.3); }
+    .fab svg { width: 20px; height: 20px; transition: transform .2s; }
+    .fab.open { transform: none; }
+    .fab.open svg { transform: rotate(45deg); }
+    nav .brand { order: -2; }
+    .fab { order: -1; }
+    .fab-menu { left: 276px; right: auto; top: 72px; bottom: auto; flex-direction: column; gap: 8px; width: 224px; z-index: 22; }
+    .fab-menu button { box-shadow: 0 8px 24px rgba(0,0,0,.25); border: 1px solid var(--line); }
+    .fab-menu button, .fab-menu.open button:nth-child(2) { width: 100%; height: 48px; border-radius: 14px; display: flex; justify-content: flex-start; gap: 12px; padding: 0 16px; transform: translateY(-8px); }
+    .fab-menu.open button, .fab-menu.open button:nth-child(2) { transform: none; }
+    .fab-menu button span { position: static; transform: none; font-size: 15px; }
+    .scrim { background: rgba(0,0,0,.15); }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin: 0; padding: 0; overflow: visible; }
+    .wcard { flex: none; min-height: 150px; }
+    .pockets { flex-wrap: wrap; margin: 0; padding: 0; overflow: visible; }
+    .pcard { flex: 1 1 160px; }
+
+    .sheet { top: 50%; bottom: auto; left: 50%; right: auto; width: min(560px, calc(100vw - 48px)); margin: 0; border-radius: 24px; max-height: 86vh; transform: translate(-50%, -47%) scale(.98); opacity: 0; pointer-events: none; transition: transform .2s ease, opacity .2s ease; padding: 18px 20px 20px; box-shadow: 0 24px 60px rgba(0,0,0,.25); }
+    .sheet.open { transform: translate(-50%, -50%); opacity: 1; pointer-events: auto; }
+    .grab { display: none; }
+    .toast { top: 20px; }
+  }
+  @media (hover: hover) {
+    .tx:hover, .wrow:hover, .pcard:hover, .prow:hover, .action:hover, .stat[data-stat]:hover { box-shadow: inset 0 0 0 1.5px var(--accent); }
+    nav .tab:not(.on):hover, .menu-list > button:hover { background: var(--card2); }
+    .tx, .wrow, .pcard, .prow, .action { cursor: pointer; }
+  }
+
   .toast { position: fixed; left: 50%; top: calc(env(safe-area-inset-top) + 12px); transform: translate(-50%, -200%); background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 12px; font-size: 14px; font-weight: 600; z-index: 60; transition: transform .25s; width: max-content; max-width: calc(100vw - 32px); text-align: center; }
   .toast.show { transform: translate(-50%, 0); }
 </style>
@@ -281,6 +343,8 @@
 <div class="sheet" id="sheet"></div>
 <div class="toast" id="toast"></div>
 
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 // ================= data =================
 const KEY = 'gajian.v2';
@@ -360,11 +424,13 @@ const DEFAULT = () => ({
   pockets: structuredClone(DEFAULT_POCKETS),
   wallets: [{ id: 'tunai', name: 'Dompet Tunai', note: 'Pegangan Harian', type: 'cash', color: '#b45309', initial: 0 }],
   txs: [],
+  deleted: {},
 });
 
 let state = load();
 function normalize(d) {
   d.settings = { ...DEFAULT().settings, ...d.settings };
+  d.deleted ||= {};
   if (!Array.isArray(d.categories) || !d.categories.length) {
     d.categories = structuredClone(DEFAULT_CATS);
     const legacy = { tagihan: 'listrik', investasi: 'investasi-in' };
@@ -392,9 +458,40 @@ function load() {
   } catch (e) {}
   return DEFAULT();
 }
-function save() {
+function saveLocal() {
   try { localStorage.setItem(KEY, JSON.stringify(state)); }
   catch (e) { toast('Gagal menyimpan data'); }
+}
+function save() { stamp(); saveLocal(); scheduleSync(); }
+
+// preferensi per perangkat (tema, sembunyikan saldo) - nggak ikut disinkron
+const PKEY = 'gajian.prefs';
+let prefs = (() => {
+  try { const p = JSON.parse(localStorage.getItem(PKEY)); if (p) return p; } catch (e) {}
+  return { theme: state.settings.theme || 'auto', hide: !!state.settings.hide, offline: false };
+})();
+function savePrefs() { try { localStorage.setItem(PKEY, JSON.stringify(prefs)); } catch (e) {} }
+
+// ---------- pelacakan perubahan per data (buat sinkron antar perangkat) ----------
+const COLLS = ['txs', 'wallets', 'categories', 'pockets'];
+const SYNC_SETTINGS = ['payday'];
+const recJson = r => { const { u, ...rest } = r; return JSON.stringify(rest); };
+const settingsJson = st => JSON.stringify(SYNC_SETTINGS.map(k => st[k]));
+let snap = null;
+function takeSnap() {
+  snap = { settings: settingsJson(state.settings) };
+  COLLS.forEach(k => { snap[k] = {}; state[k].forEach(r => snap[k][r.id] = recJson(r)); });
+}
+function stamp() {
+  const now = Date.now();
+  state.deleted ||= {};
+  COLLS.forEach(k => {
+    const seen = new Set();
+    state[k].forEach(r => { seen.add(r.id); if (snap?.[k]?.[r.id] !== recJson(r)) r.u = now; });
+    Object.keys(snap?.[k] || {}).forEach(id => { if (!seen.has(id)) state.deleted[k + ':' + id] = now; });
+  });
+  if (snap && snap.settings !== settingsJson(state.settings)) state.settings.u = now;
+  takeSnap();
 }
 
 // ================= utils =================
@@ -409,7 +506,7 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 
 const digits = s => Number(String(s).replace(/\D/g, '')) || 0;
 const fmtNum = n => n ? Math.round(n).toLocaleString('id-ID') : '';
 const rp = n => (n < 0 ? '-' : '') + 'Rp ' + Math.round(Math.abs(n)).toLocaleString('id-ID');
-const rpH = n => state.settings.hide ? 'Rp ••••••' : rp(n);
+const rpH = n => prefs.hide ? 'Rp ••••••' : rp(n);
 const BULAN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 const BLN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 const ymKey = ({ y, m }) => `${y}-${pad(m + 1)}`;
@@ -459,7 +556,7 @@ function toast(msg) {
   clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 1900);
 }
 function applyTheme() {
-  const t = state.settings.theme;
+  const t = prefs.theme;
   if (t === 'auto') document.documentElement.removeAttribute('data-theme');
   else document.documentElement.setAttribute('data-theme', t);
 }
@@ -513,11 +610,166 @@ function nextPayday() {
   return { date: d, days: Math.round((d - today) / 864e5) };
 }
 
+// ================= sinkron supabase =================
+const CFG = window.GAJIAN_CONFIG || {};
+const sb = (CFG.supabaseUrl && CFG.supabaseAnonKey && window.supabase) ? window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey, { auth: { persistSession: true, autoRefreshToken: true, storageKey: 'gajian.auth' } }) : null;
+const TABLE = 'gajian_data';
+let session = null, channel = null;
+const syncInfo = { state: 'idle', at: null, err: '' };
+let syncing = false, again = false, syncTimer = null;
+
+// stringify dengan key urut, karena jsonb di Postgres ngacak urutan key
+const stable = v => Array.isArray(v) ? '[' + v.map(stable).join(',') + ']'
+  : v && typeof v === 'object' ? '{' + Object.keys(v).sort().filter(k => v[k] !== undefined).map(k => JSON.stringify(k) + ':' + stable(v[k])).join(',') + '}'
+  : JSON.stringify(v ?? null);
+
+function mergeState(local, remote) {
+  const deleted = { ...(remote.deleted || {}) };
+  Object.entries(local.deleted || {}).forEach(([k, t]) => { if (!(deleted[k] >= t)) deleted[k] = t; });
+  const out = { deleted };
+  COLLS.forEach(k => {
+    const L = new Map((local[k] || []).map(r => [r.id, r])), R = new Map((remote[k] || []).map(r => [r.id, r]));
+    const alive = r => !(deleted[k + ':' + r.id] >= (r.u || 0));
+    // urutan ikut cloud, data yang cuma ada di lokal diselipin setelah tetangganya
+    const list = (remote[k] || []).map(r => { const l = L.get(r.id); return l && (l.u || 0) > (r.u || 0) ? l : r; });
+    let prev = null;
+    (local[k] || []).forEach(r => {
+      if (!R.has(r.id)) { const i = prev ? list.findIndex(x => x.id === prev) : -1; list.splice(i + 1, 0, r); }
+      prev = r.id;
+    });
+    out[k] = list.filter(alive);
+  });
+  const ls = local.settings || {}, rs = remote.settings || {};
+  out.settings = { ...ls, ...((rs.u || 0) > (ls.u || 0) ? Object.fromEntries(SYNC_SETTINGS.concat('u').map(x => [x, rs[x]]).filter(([, v]) => v !== undefined)) : {}) };
+  return out;
+}
+
+function setSync(st, err = '') {
+  syncInfo.state = st; syncInfo.err = err;
+  if (st === 'ok') syncInfo.at = new Date();
+  ['#syncDot', '#syncDot2'].forEach(q => { const dot = $(q); if (dot) dot.dataset.s = st; });
+  const lbl = $('#syncLbl'); if (lbl) lbl.textContent = syncText();
+}
+const syncText = () => ({ idle: 'Belum sinkron', syncing: 'Lagi sinkron…', ok: `Tersinkron ${syncInfo.at ? hm(syncInfo.at) : ''}`, error: `Gagal sinkron${syncInfo.err ? ': ' + syncInfo.err : ''}` })[syncInfo.state];
+
+function scheduleSync(ms = 1200) {
+  if (!sb || !session) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(sync, ms);
+}
+async function sync() {
+  if (!sb || !session) return;
+  if (syncing) { again = true; return; }
+  syncing = true; setSync('syncing');
+  const uid = session.user.id;
+  try {
+    for (let attempt = 0; attempt < 4; attempt++) {
+      const { data: row, error } = await sb.from(TABLE).select('data,version').eq('user_id', uid).maybeSingle();
+      if (error) throw error;
+      const remote = row ? normalize(row.data) : null;
+      const merged = remote ? normalize(mergeState(state, remote)) : state;
+      if (!remote || stable(merged) !== stable(remote)) {
+        if (!row) {
+          const { error: e2 } = await sb.from(TABLE).insert({ user_id: uid, data: merged, version: 1 });
+          if (e2) { if (e2.code === '23505') continue; throw e2; }
+        } else {
+          const { data: upd, error: e3 } = await sb.from(TABLE).update({ data: merged, version: row.version + 1, updated_at: new Date().toISOString() }).eq('user_id', uid).eq('version', row.version).select('version');
+          if (e3) throw e3;
+          if (!upd.length) continue; // keduluan perangkat lain, ulang tarik & gabung
+        }
+      }
+      const changed = stable(merged) !== stable(state);
+      state = merged; saveLocal(); takeSnap();
+      if (changed) render();
+      setSync('ok');
+      return;
+    }
+    throw new Error('bentrok terus, coba lagi');
+  } catch (e) {
+    setSync('error', navigator.onLine ? (e.message || 'error') : 'offline');
+  } finally {
+    syncing = false;
+    if (again) { again = false; scheduleSync(300); }
+  }
+}
+function listenRemote() {
+  if (channel) { sb.removeChannel(channel); channel = null; }
+  if (!session) return;
+  channel = sb.channel('gajian-' + session.user.id)
+    .on('postgres_changes', { event: '*', schema: 'public', table: TABLE, filter: `user_id=eq.${session.user.id}` }, () => scheduleSync(300))
+    .subscribe();
+}
+if (sb) {
+  sb.auth.onAuthStateChange((ev, s) => {
+    const was = session?.user?.id;
+    session = s;
+    if (s && s.user.id !== was) { prefs.offline = false; savePrefs(); render(); sync(); listenRemote(); }
+    if (!s && was) { listenRemote(); render(); }
+  });
+  addEventListener('online', () => scheduleSync(200));
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') scheduleSync(200); });
+  setInterval(() => { if (document.visibilityState === 'visible') scheduleSync(0); }, 60000);
+}
+
+// ---------- layar login ----------
+let authMode = 'in';
+function renderAuth() {
+  return `<div class="auth">
+    <img src="icon-192.png" alt="" width="72" height="72" style="border-radius:18px;margin:0 auto 14px;display:block">
+    <h1 style="text-align:center;margin:0 0 4px">Gajian</h1>
+    <p class="muted" style="text-align:center;margin:0 0 20px">${authMode === 'up' ? 'Bikin akun biar data lo sinkron di HP & laptop.' : 'Masuk biar data lo sinkron di HP & laptop.'}</p>
+    <div class="seg">${[['in', 'Masuk'], ['up', 'Daftar']].map(([k, l]) => `<button type="button" data-amode="${k}" class="${authMode === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+    <form id="authForm">
+      <div class="field"><label for="aEmail">Email</label><input class="in" id="aEmail" type="email" autocomplete="email" inputmode="email" autocapitalize="off" placeholder="nama@email.com" required></div>
+      <div class="field"><label for="aPass">Password</label><input class="in" id="aPass" type="password" autocomplete="${authMode === 'up' ? 'new-password' : 'current-password'}" placeholder="Minimal 6 karakter" required minlength="6"></div>
+      <div class="hint" id="aMsg" style="min-height:18px"></div>
+      <button class="btn" type="submit" id="aBtn">${authMode === 'up' ? 'Daftar' : 'Masuk'}</button>
+    </form>
+    <button class="link-btn" type="button" data-act="offline" style="display:block;margin:18px auto 0">Pakai tanpa akun dulu</button>
+  </div>`;
+}
+const authErr = e => ({
+  'Invalid login credentials': 'Email atau password salah.',
+  'Email not confirmed': 'Email belum dikonfirmasi. Cek inbox lo (atau folder spam).',
+  'User already registered': 'Email ini udah terdaftar, silakan Masuk.',
+  'Failed to fetch': 'Nggak bisa nyambung ke server. Cek internet lo.',
+  'Load failed': 'Nggak bisa nyambung ke server. Cek internet lo.',
+})[e.message] || e.message;
+async function doAuth() {
+  const email = $('#aEmail').value.trim(), password = $('#aPass').value, msg = $('#aMsg'), btn = $('#aBtn');
+  if (!email || password.length < 6) { msg.textContent = 'Isi email & password (minimal 6 karakter).'; return; }
+  btn.disabled = true; btn.textContent = 'Tunggu…'; msg.textContent = '';
+  try {
+    if (authMode === 'up') {
+      const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.origin + location.pathname } });
+      if (error) throw error;
+      if (!data.session) { authMode = 'in'; render(); $('#aEmail').value = email; $('#aMsg').textContent = 'Akun dibuat! Cek email lo buat konfirmasi, terus balik ke sini dan Masuk.'; return; }
+    } else {
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+    }
+  } catch (e) {
+    if ($('#aMsg')) { $('#aMsg').textContent = authErr(e); $('#aBtn').disabled = false; $('#aBtn').textContent = authMode === 'up' ? 'Daftar' : 'Masuk'; }
+  }
+}
+document.addEventListener('submit', e => { if (e.target.id === 'authForm') { e.preventDefault(); doAuth(); } });
+async function signOut() {
+  if (!confirm('Keluar dari akun? Data di perangkat ini dihapus, tapi tetap aman di cloud.')) return;
+  clearTimeout(syncTimer);
+  await sync();
+  await sb.auth.signOut();
+  state = DEFAULT(); saveLocal(); takeSnap();
+  closeSheet(); toast('Udah keluar');
+}
+
 // ================= ui state =================
 const ui = { tab: 'home', ym: nowYM(), filter: 'all', selDate: null, statFilter: null };
 
 // ================= render =================
+const needAuth = () => sb && !session && !prefs.offline;
 function render() {
+  document.body.classList.toggle('authing', !!needAuth());
+  if (needAuth()) { $('#view').innerHTML = renderAuth(); return; }
   renderNav();
   $('#view').innerHTML = ({ home: renderHome, wallet: renderWallet, activity: renderActivity, report: renderReport })[ui.tab]();
   fitText($('#view'));
@@ -525,9 +777,11 @@ function render() {
 
 function renderNav() {
   const tab = (id, icon, label) => `<button class="tab ${ui.tab === id ? 'on' : ''}" data-tab="${id}">${ic(icon, 22)}${label}</button>`;
-  $('#nav').innerHTML = tab('home', 'home', 'Beranda') + tab('wallet', 'wallet', 'Dompet') +
-    `<button class="fab" id="fab" data-act="fab" aria-label="Catat">${ic('plus', 28, 2.4)}</button>` +
-    tab('activity', 'cal', 'Aktivitas') + tab('report', 'chart', 'Laporan');
+  $('#nav').innerHTML = `<div class="brand desk"><img src="icon-192.png" alt="" width="34" height="34">Gajian</div>` +
+    tab('home', 'home', 'Beranda') + tab('wallet', 'wallet', 'Dompet') +
+    `<button class="fab" id="fab" data-act="fab" aria-label="Catat">${ic('plus', 28, 2.4)}<span class="desk">Catat transaksi</span></button>` +
+    tab('activity', 'cal', 'Aktivitas') + tab('report', 'chart', 'Laporan') +
+    `<button class="tab desk navset" data-act="settings">${ic('user', 22)}<span class="grow ell" style="text-align:left">${session ? esc(session.user.email) : 'Pengaturan'}</span>${sb && session ? '<i class="sdot" id="syncDot2"></i>' : ''}</button>`;
 }
 
 const monthPill = () => `<button class="pill" data-act="month">${BULAN[ui.ym.m]} ${ui.ym.y} ${ic('down', 16)}</button>`;
@@ -585,10 +839,10 @@ function renderHome() {
   const FILTERS = { all: 'Semua', in: 'Pemasukan', out: 'Pengeluaran', transfer: 'Transfer' };
   const list = ui.filter === 'all' ? txs : txs.filter(t => t.type === ui.filter);
 
-  return `<div class="topbar">
-      <button class="icon-btn" data-act="settings" aria-label="Pengaturan">${ic('user', 20)}</button>
+  return `<div class="layout"><div class="col-a"><div class="topbar">
+      <button class="icon-btn" data-act="settings" aria-label="Pengaturan" style="position:relative">${ic('user', 20)}${sb && session ? `<i class="sdot" id="syncDot" data-s="${syncInfo.state}"></i>` : ''}</button>
       ${monthPill()}
-      <button class="icon-btn" data-act="hide" aria-label="Sembunyikan saldo">${ic(state.settings.hide ? 'eyeoff' : 'eye', 20)}</button>
+      <button class="icon-btn" data-act="hide" aria-label="Sembunyikan saldo">${ic(prefs.hide ? 'eyeoff' : 'eye', 20)}</button>
     </div>
     <div class="saldo">
       <div class="lbl">Total Saldo</div>
@@ -602,9 +856,9 @@ function renderHome() {
     </div>
     ${insight(txs, inc, out)}
     <div class="sec"><h2>Kantong</h2><button class="tag" data-act="mpockets">Atur ${ic('right', 14)}</button></div>
-    ${pocketStrip(inc)}
-    <div class="sec"><h2>Transaksi</h2><button class="tag" data-act="filter">${FILTERS[ui.filter]} ${ic('down', 14)}</button></div>
-    ${txGroups(list, txs.length ? 'Nggak ada transaksi buat filter ini.' : 'Belum ada transaksi bulan ini.<br><span class="small">Tekan tombol <b>+</b> di bawah buat mulai nyatet.</span>')}`;
+    ${pocketStrip(inc)}</div>
+    <div class="col-b"><div class="sec"><h2>Transaksi</h2><button class="tag" data-act="filter">${FILTERS[ui.filter]} ${ic('down', 14)}</button></div>
+    ${txGroups(list, txs.length ? 'Nggak ada transaksi buat filter ini.' : 'Belum ada transaksi bulan ini.<br><span class="small">Tekan tombol <b>+</b> buat mulai nyatet.</span>')}</div></div>`;
 }
 
 function insight(txs, inc, out) {
@@ -660,15 +914,15 @@ function renderWallet() {
       <div class="row spread" style="align-items:flex-start"><div class="grow"><div class="nm ell">${esc(w.name)}</div><div class="small ell" style="opacity:.85">${esc(w.note || '')}</div></div><span class="wdot" style="background:rgba(255,255,255,.2);width:36px;height:36px;border-radius:50%;font-size:10px">${wIcon(w)}</span></div>
       <div><div class="small" style="opacity:.85">Saldo</div><div class="bal num" data-fit>${rpH(balanceOf(w))}</div></div>
     </button>`;
-  return `<div class="page-head"><div class="grow"><div class="small muted">Saldo Semua Akun</div><div style="font-size:30px;font-weight:700;letter-spacing:-.02em" class="num" data-fit>${rpH(totalBalance())}</div></div>
-      <button class="icon-btn" data-act="hide" aria-label="Sembunyikan saldo">${ic(state.settings.hide ? 'eyeoff' : 'eye', 20)}</button></div>
+  return `<div class="layout"><div class="col-a"><div class="page-head"><div class="grow"><div class="small muted">Saldo Semua Akun</div><div style="font-size:30px;font-weight:700;letter-spacing:-.02em" class="num" data-fit>${rpH(totalBalance())}</div></div>
+      <button class="icon-btn" data-act="hide" aria-label="Sembunyikan saldo">${ic(prefs.hide ? 'eyeoff' : 'eye', 20)}</button></div>
     <div class="cards">${ws.map(card).join('')}</div>
     <div class="actions">
       <button class="card action" data-act="transfer"><span class="ico">${ic('swap', 18)}</span><div class="grow"><b>Transfer</b><div class="small muted clamp2">Pindah saldo</div></div></button>
       <button class="card action" data-act="addwallet"><span class="ico">${ic('plus', 18)}</span><div class="grow"><b>Akun Baru</b><div class="small muted clamp2">Tambah sumber dana</div></div></button>
-    </div>
-    <div class="sec"><h2>Daftar Akun & Rekening</h2><span class="small muted" style="flex:none">${ws.length} Akun</span></div>
-    ${ws.map(walletRow).join('')}`;
+    </div></div>
+    <div class="col-b"><div class="sec"><h2>Daftar Akun & Rekening</h2><span class="small muted" style="flex:none">${ws.length} Akun</span></div>
+    ${ws.map(walletRow).join('')}</div></div>`;
 }
 const walletRow = w => `<button class="card wrow" data-wallet="${w.id}">
     <span class="wdot" style="background:${w.color}">${wIcon(w)}</span>
@@ -698,14 +952,14 @@ function renderActivity() {
   if (ui.statFilter) list = list.filter(t => t.type === ui.statFilter);
   const sd = ui.selDate ? parseD(ui.selDate) : null;
   return `<div class="page-head"><h1>Aktivitas</h1>${monthPill()}</div>
-    <div class="card cal"><div class="grid">${cells}</div>
+    <div class="layout"><div class="col-a"><div class="card cal"><div class="grid">${cells}</div>
       ${sd ? `<div class="banner"><span class="ell">${sd.getDate()} ${BULAN[sd.getMonth()]} · ${byDay[ui.selDate]?.n || 0} transaksi</span><button data-act="clearday">Semua ${ic('x', 14)}</button></div>` : ''}
     </div>
     <div class="duo">
       <button class="card stat ${ui.statFilter === 'out' ? 'on' : ''}" data-stat="out"><div class="small muted">Pengeluaran</div><div class="v num neg" data-fit>${rp(out)}</div></button>
       <button class="card stat ${ui.statFilter === 'in' ? 'on' : ''}" data-stat="in"><div class="small muted">Pemasukan</div><div class="v num posv" data-fit>${rp(inc)}</div></button>
-    </div>
-    ${txGroups(list, ui.selDate ? 'Nggak ada transaksi di tanggal ini.' : 'Belum ada transaksi bulan ini.')}`;
+    </div></div>
+    <div class="col-b">${txGroups(list, ui.selDate ? 'Nggak ada transaksi di tanggal ini.' : 'Belum ada transaksi bulan ini.')}</div></div>`;
 }
 
 // ---------- Laporan ----------
@@ -759,13 +1013,13 @@ function renderReport() {
 
   const saveRate = inc ? Math.round((inc - out) / inc * 100) : null;
   return `<div class="page-head"><h1>Laporan</h1>${monthPill()}</div>
-    <div class="duo">
+    <div class="layout"><div class="col-a"><div class="duo">
       <div class="card stat"><div class="small muted">Selisih bulan ini</div><div class="v num ${inc - out < 0 ? 'neg' : 'posv'}" data-fit>${rp(inc - out)}</div></div>
       <div class="card stat"><div class="small muted">Rasio nabung</div><div class="v num" data-fit>${saveRate === null ? '–' : saveRate + '%'}</div></div>
     </div>
-    <div class="sec"><h2>Per Kategori</h2><button class="link-btn" data-act="mcat-out">Kelola</button></div>${donut}
-    <div class="sec"><h2>Kantong</h2><button class="link-btn" data-act="mpockets">Atur</button></div>${pocketHtml}
-    <div class="sec"><h2>Arus Kas 6 Bulan</h2></div>${flow}`;
+    <div class="sec"><h2>Per Kategori</h2><button class="link-btn" data-act="mcat-out">Kelola</button></div>${donut}</div>
+    <div class="col-b"><div class="sec"><h2>Kantong</h2><button class="link-btn" data-act="mpockets">Atur</button></div>${pocketHtml}
+    <div class="sec"><h2>Arus Kas 6 Bulan</h2></div>${flow}</div></div>`;
 }
 
 // ================= sheet =================
@@ -1225,7 +1479,14 @@ function quickParse() {
 // ---------- pengaturan & lain-lain ----------
 function openSettings() {
   const s = state.settings;
+  const acct = !sb ? `<div class="hint">Sinkron cloud belum diatur di config.js.</div>`
+    : session ? `<div class="grp">Akun</div><div class="menu-list">
+        <div><span class="left"><span class="cico" style="background:var(--soft);color:var(--accent)">${ic('user', 18)}</span><span class="grow"><span class="ell" style="display:block">${esc(session.user.email)}</span><span class="small muted" id="syncLbl">${syncText()}</span></span></span></div>
+        <button data-act="syncnow">Sinkron sekarang <span class="right">${ic('swap', 16)}</span></button>
+        <button data-act="signout" style="color:var(--out)">Keluar</button></div>`
+    : `<div class="grp">Akun</div><div class="menu-list"><button data-act="login"><span class="left"><span class="cico" style="background:var(--soft);color:var(--accent)">${ic('user', 18)}</span><span class="ell">Masuk / Daftar buat sinkron</span></span><span class="right">${ic('right', 16)}</span></button></div>`;
   openSheet(`${sheetHead('Pengaturan')}
+    ${acct}
     <div class="menu-list">
       <label><span>Tanggal gajian</span><input id="sPayday" type="number" inputmode="numeric" min="1" max="31" value="${s.payday}"></label>
     </div>
@@ -1236,16 +1497,16 @@ function openSettings() {
       <button data-act="mwallet"><span class="left"><span class="cico" style="background:var(--soft);color:var(--accent)">${ic('bank', 18)}</span><span class="ell">Sumber Dana / Akun</span></span><span class="right">${state.wallets.length}${ic('right', 16)}</span></button>
       <button data-act="mpockets"><span class="left"><span class="cico" style="background:var(--card2)">👛</span><span class="ell">Kantong</span></span><span class="right">${state.pockets.length}${ic('right', 16)}</span></button>
     </div>
-    <div class="field"><label>Tampilan</label><div class="seg" style="margin:0">${[['auto', 'Otomatis'], ['light', 'Terang'], ['dark', 'Gelap']].map(([k, l]) => `<button data-theme="${k}" class="${s.theme === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>
+    <div class="field"><label>Tampilan</label><div class="seg" style="margin:0">${[['auto', 'Otomatis'], ['light', 'Terang'], ['dark', 'Gelap']].map(([k, l]) => `<button data-theme="${k}" class="${prefs.theme === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>
     <div class="grp">Data</div>
-    <div class="hint">Data cuma disimpan di HP ini (nggak dikirim ke mana-mana). Rutin backup biar aman kalau ganti HP.</div>
+    <div class="hint">${sb && session ? 'Data disimpan di perangkat ini & disinkron ke akun lo. Backup manual tetap bisa buat jaga-jaga.' : 'Data cuma disimpan di perangkat ini. Rutin backup biar aman kalau ganti HP.'}</div>
     <div class="menu-list">
       <button data-act="export">Backup data <span class="right">${ic('right', 16)}</span></button>
       <button data-act="import">Pulihkan dari backup <span class="right">${ic('right', 16)}</span></button>
       <button data-act="reset" style="color:var(--out)">Hapus semua data</button>
     </div>
     <input type="file" id="importFile" accept="application/json,.json" hidden>
-    <div class="small muted" style="text-align:center">Gajian v3 · ${state.txs.length} transaksi · ${state.wallets.length} akun · ${state.categories.length} kategori</div>`);
+    <div class="small muted" style="text-align:center">Gajian v4 · ${state.txs.length} transaksi · ${state.wallets.length} akun · ${state.categories.length} kategori</div>`);
 }
 function openMonth() {
   let y = ui.ym.y;
@@ -1298,7 +1559,7 @@ document.addEventListener('click', e => {
   if (ds.filter) { ui.filter = ds.filter; closeSheet(); return; }
   if (ds.year) { openMonth.shift(Number(ds.year)); return; }
   if (ds.m) { const [y, m] = ds.m.split('-').map(Number); ui.ym = { y, m }; ui.selDate = null; closeSheet(); return; }
-  if (ds.theme) { state.settings.theme = ds.theme; save(); applyTheme(); markOn(); return; }
+  if (ds.theme) { prefs.theme = ds.theme; savePrefs(); applyTheme(); markOn(); return; }
 
   // form transaksi
   if (ds.type) { syncDraft(); draft.type = ds.type; if (ds.type === 'transfer' && state.wallets.length < 2) toast('Tambah minimal 2 akun dulu buat transfer'); renderTxSheet(); return; }
@@ -1336,7 +1597,12 @@ document.addEventListener('click', e => {
   if (ds.wtype) { wdraft.type = ds.wtype; markOn(); return; }
   if (ds.color) { wdraft.color = ds.color; markOn(); return; }
 
+  if (ds.amode) { authMode = ds.amode; render(); return; }
   switch (ds.act) {
+    case 'offline': prefs.offline = true; savePrefs(); render(); break;
+    case 'login': prefs.offline = false; savePrefs(); closeSheet(); break;
+    case 'syncnow': sync(); break;
+    case 'signout': signOut(); break;
     case 'fab': toggleFab(); break;
     case 'manual': toggleFab(false); openTx(); break;
     case 'voice': toggleFab(false); openVoice(); break;
@@ -1379,7 +1645,7 @@ document.addEventListener('click', e => {
     case 'addwallet': openWallet(); break;
     case 'savewallet': saveWallet(); break;
     case 'delwallet': deleteWallet(); break;
-    case 'hide': state.settings.hide = !state.settings.hide; save(); render(); break;
+    case 'hide': prefs.hide = !prefs.hide; savePrefs(); render(); break;
     case 'month': openMonth(); break;
     case 'filter': openFilter(); break;
     case 'clearday': ui.selDate = null; render(); break;
@@ -1387,7 +1653,7 @@ document.addEventListener('click', e => {
     case 'export': exportData(); break;
     case 'import': $('#importFile').click(); break;
     case 'reset':
-      if (!confirm('Semua akun, transaksi, kategori, dan pengaturan bakal dihapus. Yakin?')) break;
+      if (!confirm(`Semua akun, transaksi, kategori, dan pengaturan bakal dihapus${session ? ' (termasuk di cloud & perangkat lain)' : ''}. Yakin?`)) break;
       if (!confirm('Beneran? Ini nggak bisa dibatalin.')) break;
       state = DEFAULT(); save(); applyTheme(); closeSheet(); toast('Data dihapus'); break;
   }
@@ -1420,8 +1686,12 @@ document.addEventListener('change', async e => {
   }
 });
 
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#sheet').classList.contains('open')) closeSheet(); });
+
+takeSnap();
 applyTheme();
 render();
+if (sb) sb.auth.getSession().then(({ data }) => { if (!session && data.session) { session = data.session; render(); sync(); listenRemote(); } else if (!data.session) render(); });
 
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
   navigator.serviceWorker.register('sw.js').catch(() => {});

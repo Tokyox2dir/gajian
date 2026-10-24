@@ -1,6 +1,7 @@
-// Naikkan versi ini tiap kali ada perubahan file supaya iPhone ambil versi baru.
-const CACHE = 'gajian-v4';
-const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
+// Naikkan versi ini tiap kali ada perubahan file supaya perangkat ambil versi baru.
+const CACHE = 'gajian-v5';
+const FILES = ['./', 'index.html', 'config.js', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png',
+  'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
@@ -14,14 +15,16 @@ self.addEventListener('activate', e => {
   );
 });
 
-// Network dulu (biar selalu dapat versi terbaru), fallback ke cache kalau offline.
+// Network dulu (biar selalu versi terbaru), fallback ke cache kalau offline.
+// Request ke Supabase (API/login/realtime) nggak pernah di-cache.
 self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET') return;
+  const url = new URL(e.request.url);
+  const ours = url.origin === location.origin || url.hostname === 'cdn.jsdelivr.net';
+  if (e.request.method !== 'GET' || !ours) return;
   e.respondWith(
     fetch(e.request)
       .then(res => {
-        const copy = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, copy));
+        if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
         return res;
       })
       .catch(() => caches.match(e.request, { ignoreSearch: true }))
