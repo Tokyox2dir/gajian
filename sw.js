@@ -1,5 +1,5 @@
 // Naikkan versi ini tiap kali ada perubahan file supaya perangkat ambil versi baru.
-const CACHE = 'gajian-v5';
+const CACHE = 'gajian-v6';
 const FILES = ['./', 'index.html', 'config.js', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png',
   'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
 
