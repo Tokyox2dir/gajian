@@ -272,6 +272,11 @@
   .sdot[data-s="error"] { background: var(--out); }
   .desk { display: none !important; }
   .layout { display: block; }
+  /* iOS (mode home screen) salah ngitung tinggi layar kalau isi halaman lebih pendek dari layar:
+     nav bar jadi naik setinggi status bar. Halaman yang lebih tinggi dari layar nggak kena,
+     jadi di mode app halaman dibikin selalu sedikit lebih tinggi dari layar. */
+  html.pwa body { min-height: calc(100vh + env(safe-area-inset-top) + 1px); }
+  html.pwa { overscroll-behavior-y: none; }
   /* di HP kolom kanan numpuk di bawah kolom kiri: card pertamanya butuh jarak juga */
   @media (max-width: 899px) { .col-a + .col-b > .card:first-child { margin-top: 12px; } }
 
@@ -1533,6 +1538,12 @@ async function exportData() {
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
+// scroll ke atas: di HP yang scroll #view, di PC window
+function scrollTop() { $('#view').scrollTop = 0; window.scrollTo(0, 0); }
+// iOS kadang ninggalin halaman kegeser habis keyboard ketutup -> balikin
+document.addEventListener('focusout', () => setTimeout(() => { if (window.scrollY || document.documentElement.scrollTop) window.scrollTo(0, 0); }, 60));
+window.visualViewport?.addEventListener('resize', () => { if (window.visualViewport.height >= window.innerHeight - 1 && window.scrollY) window.scrollTo(0, 0); });
+
 // ================= fab =================
 function toggleFab(open) {
   const on = open ?? !$('#fabMenu').classList.contains('open');
@@ -1549,8 +1560,8 @@ document.addEventListener('click', e => {
   const ds = el.dataset;
   const markOn = () => el.parentElement.querySelectorAll(':scope > button').forEach(b => b.classList.toggle('on', b === el));
 
-  if (ds.tab) { ui.tab = ds.tab; ui.selDate = null; ui.statFilter = null; toggleFab(false); render(); window.scrollTo(0, 0); return; }
-  if (ds.tabGo) { ui.tab = ds.tabGo; render(); window.scrollTo(0, 0); return; }
+  if (ds.tab) { ui.tab = ds.tab; ui.selDate = null; ui.statFilter = null; toggleFab(false); render(); scrollTop(); return; }
+  if (ds.tabGo) { ui.tab = ds.tabGo; render(); scrollTop(); return; }
   if (ds.tx) { const t = state.txs.find(x => x.id === ds.tx); if (t) openTx(t); return; }
   if (ds.wallet) { openWallet(walletOf(ds.wallet)); return; }
   if (ds.mwallet) { openWallet(walletOf(ds.mwallet), openManageWallets, openManageWallets); return; }
@@ -1689,6 +1700,7 @@ document.addEventListener('change', async e => {
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#sheet').classList.contains('open')) closeSheet(); });
 
 takeSnap();
+if (navigator.standalone || matchMedia('(display-mode: standalone)').matches) document.documentElement.classList.add('pwa');
 applyTheme();
 render();
 if (sb) sb.auth.getSession().then(({ data }) => { if (!session && data.session) { session = data.session; render(); sync(); listenRemote(); } else if (!data.session) render(); });
