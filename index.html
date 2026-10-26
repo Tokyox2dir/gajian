@@ -596,12 +596,27 @@ const sortTx = txs => [...txs].sort((a, b) => (b.date + b.time).localeCompare(a.
 const usage = id => state.txs.filter(t => t.catId === id).length;
 const pocketOf = catId => state.pockets.find(p => p.catIds.includes(catId));
 const pocketById = id => state.pockets.find(p => p.id === id);
+// Kantong sebuah pengeluaran: pilihan manual (pocketId; null = tanpa kantong),
+// kalau nggak dipilih ikut kantong dari kategorinya.
+function txPocket(t) {
+  if (t.type !== 'out') return null;
+  if (t.pocketId !== undefined) return t.pocketId ? pocketById(t.pocketId) || null : null;
+  return pocketOf(t.catId) || null;
+}
 function pocketStats(p, ym = ui.ym) {
-  const txs = txsOfMonth(ym).filter(t => t.type === 'out' && p.catIds.includes(t.catId));
+  const mine = t => t.type === 'out' && txPocket(t)?.id === p.id;
+  const txs = txsOfMonth(ym).filter(mine);
+  if (p.kind === 'save') {
+    // kantong nabung: kategori isinya = setoran (+), pengeluaran lain yang diambil dari sini = penarikan (-)
+    const isDep = t => p.catIds.includes(t.catId);
+    const end = ymKey(ym) + '-31';
+    const saved = state.txs.filter(t => mine(t) && t.date <= end).reduce((a, t) => a + (isDep(t) ? t.amount : -t.amount), 0);
+    const used = txs.filter(isDep).reduce((a, t) => a + t.amount, 0);
+    const taken = txs.filter(t => !isDep(t)).reduce((a, t) => a + t.amount, 0);
+    return { txs, used, taken, left: p.amount - used, saved, pct: p.amount ? used / p.amount * 100 : 0 };
+  }
   const used = sum(txs, 'out');
-  const end = ymKey(ym) + '-31';
-  const saved = p.kind === 'save' ? state.txs.filter(t => t.type === 'out' && p.catIds.includes(t.catId) && t.date <= end).reduce((a, t) => a + t.amount, 0) : 0;
-  return { txs, used, left: p.amount - used, saved, pct: p.amount ? used / p.amount * 100 : 0 };
+  return { txs, used, left: p.amount - used, saved: 0, pct: p.amount ? used / p.amount * 100 : 0 };
 }
 const allocated = () => state.pockets.reduce((a, p) => a + (p.amount || 0), 0);
 const barCls = (pct, save) => save ? '' : pct > 100 ? 'over' : pct > 80 ? 'warn' : '';
@@ -1051,6 +1066,7 @@ function openTx(tx, title) {
   const now = new Date();
   draft = tx ? { ...tx } : { id: null, type: 'out', amount: 0, catId: topCats('out', 1)[0]?.id || 'makan', walletId: state.wallets[0]?.id, toWalletId: state.wallets[1]?.id, note: '', date: iso(now), time: hm(now) };
   draft._title = title || (draft.id ? 'Edit Transaksi' : 'Catat Transaksi');
+  draft._pocketManual = draft.pocketId !== undefined;
   renderTxSheet();
 }
 // kategori yang paling sering dipakai muncul duluan
@@ -1080,7 +1096,8 @@ function renderTxSheet() {
       <div class="quick">${[10000, 50000, 100000, 500000, 1000000].map(n => `<button data-add="${n}">+${n >= 1e6 ? n / 1e6 + 'jt' : n / 1000 + 'rb'}</button>`).join('')}<button data-add="0">Reset</button></div>
     </div>
     ${d.type !== 'transfer' ? `<div class="field"><div class="lbl"><span>Kategori</span><button class="link-btn" data-act="pickcat">Semua (${all.length}) ›</button></div>
-      <div class="chips">${quick.map(c => `<button class="chip ${c.id === d.catId ? 'on' : ''}" data-c="${c.id}">${c.icon} ${esc(c.name)}</button>`).join('')}<button class="chip add" data-act="pickcat">${ic('search', 14)} Lainnya…</button></div><div id="pinfo">${pocketInfo()}</div></div>` : ''}
+      <div class="chips">${quick.map(c => `<button class="chip ${c.id === d.catId ? 'on' : ''}" data-c="${c.id}">${c.icon} ${esc(c.name)}</button>`).join('')}<button class="chip add" data-act="pickcat">${ic('search', 14)} Lainnya…</button></div></div>` : ''}
+    ${d.type === 'out' ? `<div class="field" id="pfield">${pocketField()}</div>` : ''}
     <div class="field"><label>${d.type === 'transfer' ? 'Dari akun' : 'Sumber dana'}</label>${wchips('walletId')}</div>
     ${d.type === 'transfer' ? `<div class="field"><label>Ke akun</label>${wchips('toWalletId')}</div>` : ''}
     <div class="field"><label for="note">Catatan</label><input class="in" id="note" placeholder="${d.type === 'in' ? 'mis. Gaji Oktober' : d.type === 'transfer' ? 'mis. Isi saldo GoPay' : 'mis. Isi bensin Pertamax'}" value="${esc(d.note)}"></div>
@@ -1095,15 +1112,54 @@ function renderTxSheet() {
   // scroll chip akun yang kepilih biar kelihatan
   $('#sheet').querySelectorAll('.chips.scroll .chip.on').forEach(c => c.scrollIntoView({ inline: 'center', block: 'nearest' }));
 }
+// kantong yang lagi kepilih di form
+const draftPocket = () => draft._pocketManual ? (draft.pocketId ? pocketById(draft.pocketId) || null : null) : pocketOf(draft.catId) || null;
+// sisa kantong sebelum transaksi ini (kalau lagi edit, nominal lamanya dibalikin dulu)
+function pocketBefore(p) {
+  const dt = parseD(draft.date || iso(new Date()));
+  const ym = { y: dt.getFullYear(), m: dt.getMonth() };
+  const st = pocketStats(p, ym);
+  const orig = draft.id && state.txs.find(t => t.id === draft.id);
+  if (orig && txPocket(orig)?.id === p.id && orig.date.startsWith(ymKey(ym))) {
+    const dep = p.kind === 'save' && p.catIds.includes(orig.catId);
+    if (p.kind === 'save') st.saved -= dep ? orig.amount : -orig.amount;
+    else st.left += orig.amount;
+  }
+  return st;
+}
+function pocketField() {
+  const cur = draftPocket();
+  const chips = state.pockets.map(p => {
+    const st = pocketBefore(p);
+    const sub = p.kind === 'save' ? rp(st.saved) : p.amount ? `sisa ${rp(st.left)}` : 'tanpa jatah';
+    return `<button class="chip ${cur?.id === p.id ? 'on' : ''}" data-pk="${p.id}">${p.icon} ${esc(p.name)}<span class="sub ${p.kind !== 'save' && p.amount && st.left < 0 ? 'neg' : ''}">· ${sub}</span></button>`;
+  }).join('');
+  return `<div class="lbl"><span>Ambil dari kantong</span><span>${draft._pocketManual ? `<button class="link-btn" data-act="pk-auto">Ikut kategori</button>` : 'otomatis dari kategori'}</span></div>
+    <div class="chips">${chips}<button class="chip ${!cur ? 'on' : ''}" data-pk="">Tanpa kantong</button></div>
+    <div id="pinfo">${pocketInfo()}</div>`;
+}
 function pocketInfo() {
   if (draft.type !== 'out') return '';
-  const p = pocketOf(draft.catId);
-  if (!p) return `<div class="pinfo muted">Kategori ini belum masuk kantong mana pun.</div>`;
-  const dt = parseD(draft.date || iso(new Date()));
-  const st = pocketStats(p, { y: dt.getFullYear(), m: dt.getMonth() });
-  const txt = p.kind === 'save' ? `terkumpul <b>${rp(st.saved)}</b>` : p.amount ? `sisa <b class="${st.left < 0 ? 'neg' : ''}">${rp(st.left)}</b>` : `belum ada jatah`;
-  return `<div class="pinfo"><span>${p.icon}</span><span class="grow">Kantong <b>${esc(p.name)}</b> · ${txt}</span></div>`;
+  const p = draftPocket();
+  const amt = draft.amount || 0;
+  if (!p) return `<div class="pinfo muted">${draft._pocketManual ? 'Nggak motong kantong mana pun.' : 'Kategori ini belum masuk kantong. Pilih kantongnya di atas biar sisanya kepotong.'}</div>`;
+  const st = pocketBefore(p);
+  let txt;
+  if (p.kind === 'save') {
+    const dep = p.catIds.includes(draft.catId);
+    const after = st.saved + (dep ? amt : -amt);
+    txt = `${dep ? 'Tabungan nambah' : 'Tabungan berkurang'} jadi <b class="num ${after < 0 ? 'neg' : ''}">${rp(after)}</b>`;
+  } else if (!p.amount) {
+    txt = `Kantong <b>${esc(p.name)}</b> belum ada jatahnya`;
+  } else {
+    const after = st.left - amt;
+    txt = after < 0
+      ? `<span class="neg">Kantong <b>${esc(p.name)}</b> bakal kelewatan <b class="num">${rp(-after)}</b></span>`
+      : `Sisa kantong <b>${esc(p.name)}</b>: <span class="num">${rp(st.left)}</span>${amt ? ` → <b class="num">${rp(after)}</b>` : ''}`;
+  }
+  return `<div class="pinfo"><span>${p.icon}</span><span class="grow">${txt}</span></div>`;
 }
+const refreshPocket = () => { const f = $('#pfield'); if (f && draft) f.innerHTML = pocketField(); };
 function syncDraft() {
   if (!$('#amt')) return;
   draft.amount = digits($('#amt').value);
@@ -1122,6 +1178,11 @@ function saveTx() {
   }
   const clean = { id: d.id || uid(), type: d.type, amount: d.amount, walletId: d.walletId, note: d.note, date: d.date, time: d.time, created: d.created || Date.now() };
   if (d.type === 'transfer') clean.toWalletId = d.toWalletId; else clean.catId = d.catId;
+  // simpan kantong cuma kalau beda dari kantong kategorinya (biar tetap "otomatis")
+  if (d.type === 'out' && d._pocketManual) {
+    const pk = d.pocketId || null;
+    if (pk !== (pocketOf(d.catId)?.id || null)) clean.pocketId = pk;
+  }
   const i = state.txs.findIndex(t => t.id === clean.id);
   if (i >= 0) state.txs[i] = clean; else state.txs.push(clean);
   save();
@@ -1371,6 +1432,7 @@ function savePocket() {
 function deletePocket() {
   if (!confirm(`Hapus kantong "${pdraft.name}"? Transaksinya tetap aman, cuma nggak masuk kantong lagi.`)) return;
   state.pockets = state.pockets.filter(p => p.id !== pdraft.id);
+  state.txs.forEach(t => { if (t.pocketId === pdraft.id) delete t.pocketId; });
   save(); toast('Kantong dihapus');
   pBack ? pBack() : closeSheet();
 }
@@ -1386,7 +1448,7 @@ function openVoice() {
     </div>
     <div class="field"><label for="quickText">${SR ? 'Atau ketik' : 'Ketik aja kayak ngobrol'}</label>
       <textarea class="in" id="quickText" placeholder="mis. isi bensin pertamax 250rb pakai BCA"></textarea></div>
-    <div class="hint">Contoh: “makan siang 35 ribu gopay”, “gaji oktober 8,5jt bca”, “transfer 500rb dari bca ke gopay”.</div>
+    <div class="hint">Contoh: “makan siang 35 ribu gopay”, “gaji oktober 8,5jt bca”, “transfer 500rb dari bca ke gopay”, “beli sepatu 400rb dari kantong nabung”.</div>
     <button class="btn" data-act="parse">Lanjut ${ic('right', 18)}</button>`);
   if (!SR) setTimeout(() => $('#quickText')?.focus(), 300);
 }
@@ -1471,12 +1533,20 @@ function quickParse() {
   ws.forEach(w => { note = note.replace(new RegExp(`(^|\\s)${reEsc(w.name.replace(/^(bank|dompet)\s+/i, ''))}(?=\\s|$)`, 'gi'), ' '); });
   note = note.replace(/(^|\s)(tunai|cash)(?=\s|$)/gi, ' ').replace(/\s+/g, ' ').trim();
   note = note.charAt(0).toUpperCase() + note.slice(1);
+  // "... dari kantong nongkrong" -> pilih kantong itu
+  let pocketId;
+  const km = t.match(/kantong\s+([\p{L}\p{N}]+)/u);
+  if (km) {
+    const p = state.pockets.find(p => p.name.toLowerCase().startsWith(km[1])) || state.pockets.find(p => p.name.toLowerCase().includes(km[1]));
+    if (p) { pocketId = p.id; note = note.replace(new RegExp(`(^|\\s)kantong\\s+${reEsc(km[1])}`, 'i'), ' ').replace(/\s+/g, ' ').trim(); note = note.charAt(0).toUpperCase() + note.slice(1); }
+  }
   const fromId = ws[0]?.id || state.wallets[0]?.id;
   draft = {
     id: null, type, amount: parseAmount(t), catId,
     walletId: fromId,
     toWalletId: type === 'transfer' ? ws[1]?.id : state.wallets.find(w => w.id !== fromId)?.id,
     note, date: iso(date), time: hm(now), _title: 'Konfirmasi Transaksi',
+    ...(pocketId ? { pocketId, _pocketManual: true } : { _pocketManual: false }),
   };
   renderTxSheet();
 }
@@ -1511,7 +1581,7 @@ function openSettings() {
       <button data-act="reset" style="color:var(--out)">Hapus semua data</button>
     </div>
     <input type="file" id="importFile" accept="application/json,.json" hidden>
-    <div class="small muted" style="text-align:center">Gajian v4 · ${state.txs.length} transaksi · ${state.wallets.length} akun · ${state.categories.length} kategori</div>`);
+    <div class="small muted" style="text-align:center">Gajian v5 · ${state.txs.length} transaksi · ${state.wallets.length} akun · ${state.categories.length} kategori</div>`);
 }
 function openMonth() {
   let y = ui.ym.y;
@@ -1574,9 +1644,10 @@ document.addEventListener('click', e => {
 
   // form transaksi
   if (ds.type) { syncDraft(); draft.type = ds.type; if (ds.type === 'transfer' && state.wallets.length < 2) toast('Tambah minimal 2 akun dulu buat transfer'); renderTxSheet(); return; }
-  if (ds.c) { draft.catId = ds.c; el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === el)); $('#pinfo').innerHTML = pocketInfo(); return; }
+  if (ds.c) { draft.catId = ds.c; el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === el)); refreshPocket(); return; }
+  if (ds.pk !== undefined) { draft._pocketManual = true; draft.pocketId = ds.pk || null; refreshPocket(); return; }
   if (ds.w) { const [k, id] = ds.w.split(':'); draft[k] = id; el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === el)); return; }
-  if (ds.add !== undefined) { const a = $('#amt'); const n = Number(ds.add); a.value = fmtNum(n ? digits(a.value) + n : 0); return; }
+  if (ds.add !== undefined) { const a = $('#amt'); const n = Number(ds.add); a.value = fmtNum(n ? digits(a.value) + n : 0); draft.amount = digits(a.value); if ($('#pinfo')) $('#pinfo').innerHTML = pocketInfo(); return; }
   if (ds.pick) { draft.catId = ds.pick; renderTxSheet(); return; }
 
   // form kategori
@@ -1622,6 +1693,7 @@ document.addEventListener('click', e => {
       if (state.wallets.length < 2) { toast('Tambah minimal 2 akun dulu'); ui.tab = 'wallet'; render(); break; }
       openTx(); draft.type = 'transfer'; renderTxSheet(); break;
     case 'mic': toggleMic(); break;
+    case 'pk-auto': draft._pocketManual = false; delete draft.pocketId; refreshPocket(); break;
     case 'parse': stopVoice(); quickParse(); break;
     case 'close': closeSheet(); break;
     case 'back': backFn ? backFn() : closeSheet(); break;
@@ -1674,6 +1746,7 @@ $('#sheetBg').addEventListener('click', closeSheet);
 document.addEventListener('input', e => {
   const el = e.target;
   if (el.matches('[data-money]')) el.value = fmtNum(digits(el.value));
+  if (el.id === 'amt' && draft) { draft.amount = digits(el.value); if ($('#pinfo')) $('#pinfo').innerHTML = pocketInfo(); }
   if (el.id === 'catSearch') {
     pickQuery = el.value.trim();
     $('#catGrid').innerHTML = catGrid(draft.type === 'in' ? 'in' : 'out');
@@ -1681,6 +1754,7 @@ document.addEventListener('input', e => {
 });
 document.addEventListener('change', async e => {
   const el = e.target;
+  if (el.id === 'date' && draft && $('#pfield')) { draft.date = el.value || iso(new Date()); refreshPocket(); }
   if (el.id === 'sPayday') {
     state.settings.payday = Math.min(31, Math.max(1, parseInt(el.value) || 1));
     el.value = state.settings.payday; save(); render(); toast(`Tanggal gajian: ${state.settings.payday}`);
