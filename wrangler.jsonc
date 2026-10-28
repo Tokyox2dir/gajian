@@ -1,0 +1,8 @@
+// Konfigurasi deploy Cloudflare Workers: situs statis, tanpa kode server.
+{
+  "name": "gajian",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./"
+  }
+}

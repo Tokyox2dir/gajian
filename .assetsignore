@@ -1,0 +1,13 @@
+# File yang nggak ikut di-upload ke Cloudflare (bukan bagian dari app)
+.git
+.github
+.claude
+.omc
+.DS_Store
+node_modules
+.gitignore
+.assetsignore
+.nojekyll
+wrangler.jsonc
+README.md
+supabase.sql
