@@ -1,5 +1,5 @@
 // Naikkan versi ini tiap kali ada perubahan file supaya perangkat ambil versi baru.
-const CACHE = 'gajian-v8';
+const CACHE = 'gajian-v9';
 const FILES = ['./', 'index.html', 'config.js', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png',
   'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
 
@@ -19,7 +19,7 @@ self.addEventListener('activate', e => {
 // Request ke Supabase (API/login/realtime) nggak pernah di-cache.
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  const ours = url.origin === location.origin || url.hostname === 'cdn.jsdelivr.net';
+  const ours = url.origin === location.origin || ['cdn.jsdelivr.net', 'fonts.googleapis.com', 'fonts.gstatic.com'].includes(url.hostname);
   if (e.request.method !== 'GET' || !ours) return;
   e.respondWith(
     fetch(e.request)

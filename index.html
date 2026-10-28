@@ -7,64 +7,74 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Gajian">
-<meta name="theme-color" content="#2563eb">
+<meta name="theme-color" content="#1F5F4A">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
 <title>Gajian</title>
 <style>
+  /* ========= Gajian: "amplop gaji" =========
+     Kertas uang (putih kehijauan) + tinta hijau tua. Warna kantong/kategori
+     ngambil dari pecahan Rupiah. Satu elemen yang berani: amplop kantong. */
   :root {
-    --bg: #eef2f7;
-    --card: #ffffff;
-    --card2: #f5f7fb;
-    --text: #0f172a;
-    --muted: #64748b;
-    --line: #e3e8f0;
-    --accent: #2563eb;
-    --on-accent: #ffffff;
-    --soft: #dbe7ff;
-    --out: #e11d48;
-    --out-soft: #ffe4ea;
-    --in: #16a34a;
-    --in-soft: #dcfce7;
-    --statusbar: #2563eb;
-    --shadow: 0 1px 2px rgba(15,23,42,.04), 0 6px 20px rgba(15,23,42,.06);
+    --paper: #ECF0EB;
+    --sheet: #F9FBF8;
+    --sunk: #E1E8E2;
+    --ink: #14211D;
+    --ink-2: #5A6A63;
+    --rule: #D3DCD5;
+    --accent: #1F5F4A;
+    --on-accent: #F4F8F3;
+    --accent-soft: #D4E5DB;
+    --out: #B8314B;
+    --in: #22764E;
+    --warn: #A86E12;
+    --statusbar: #1F5F4A;
+    --display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #0a0e15; --card: #141a24; --card2: #1b2230; --text: #e6ebf2; --muted: #8b95a7; --line: #232c3a;
-      --accent: #3b82f6; --on-accent: #ffffff; --soft: #1b2a47; --out: #fb7185; --out-soft: #3a1720;
-      --in: #4ade80; --in-soft: #12301f; --statusbar: #0a0e15; --shadow: none; color-scheme: dark;
+      --paper: #0E1A17; --sheet: #15241F; --sunk: #1B2E27; --ink: #E5EEE8; --ink-2: #93A69D; --rule: #26392F;
+      --accent: #8BD3AE; --on-accent: #0E1A17; --accent-soft: #1D3A2D; --out: #FF8499; --in: #7BD8A3; --warn: #E8B45C;
+      --statusbar: #0E1A17; color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #0a0e15; --card: #141a24; --card2: #1b2230; --text: #e6ebf2; --muted: #8b95a7; --line: #232c3a;
-    --accent: #3b82f6; --on-accent: #ffffff; --soft: #1b2a47; --out: #fb7185; --out-soft: #3a1720;
-    --in: #4ade80; --in-soft: #12301f; --statusbar: #0a0e15; --shadow: none; color-scheme: dark;
+    --paper: #0E1A17; --sheet: #15241F; --sunk: #1B2E27; --ink: #E5EEE8; --ink-2: #93A69D; --rule: #26392F;
+    --accent: #8BD3AE; --on-accent: #0E1A17; --accent-soft: #1D3A2D; --out: #FF8499; --in: #7BD8A3; --warn: #E8B45C;
+    --statusbar: #0E1A17; color-scheme: dark;
+  }
+  /* nama lama yang masih dipakai di template JS */
+  :root {
+    --bg: var(--paper); --card: var(--sheet); --card2: var(--sunk); --text: var(--ink); --muted: var(--ink-2); --line: var(--rule);
+    --soft: var(--accent-soft); --out-soft: color-mix(in srgb, var(--out) 13%, var(--sheet)); --in-soft: color-mix(in srgb, var(--in) 13%, var(--sheet));
+    --shadow: none;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html, body { margin: 0; background: var(--bg); color: var(--text); }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); }
   body {
-    font: 16px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
-    padding: calc(env(safe-area-inset-top) + 10px) 16px calc(env(safe-area-inset-bottom) + 110px);
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+    padding: calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 104px);
     max-width: 560px; margin: 0 auto;
     -webkit-user-select: none; user-select: none;
-    overscroll-behavior-y: none;
-    overflow-x: hidden;
+    overscroll-behavior-y: none; overflow-x: hidden;
   }
   body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top); background: var(--statusbar); z-index: 50; }
   input, select, textarea, button { font: inherit; color: inherit; }
   input, textarea { -webkit-user-select: text; user-select: text; }
   button { cursor: pointer; }
+  button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   svg { display: block; flex: none; }
   .num { font-variant-numeric: tabular-nums; }
-  .muted { color: var(--muted); }
+  .muted { color: var(--ink-2); }
   .small { font-size: 13px; }
   .row { display: flex; align-items: center; gap: 12px; }
   .spread { justify-content: space-between; }
-  .card { background: var(--card); border-radius: 20px; box-shadow: var(--shadow); }
   .neg { color: var(--out); }
   .posv { color: var(--in); }
   .ell { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
@@ -72,264 +82,305 @@
   [data-fit] { white-space: nowrap; overflow: hidden; display: block; max-width: 100%; }
   .grow { flex: 1; min-width: 0; }
 
-  /* top bar */
-  .topbar { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; margin-bottom: 8px; }
-  .icon-btn { width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--card); display: grid; place-items: center; box-shadow: var(--shadow); color: var(--text); flex: none; }
-  .pill { justify-self: center; border: 1px solid var(--line); background: var(--card); border-radius: 99px; padding: 8px 14px; font-weight: 600; font-size: 15px; display: inline-flex; gap: 6px; align-items: center; white-space: nowrap; flex: none; }
-  .page-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 4px 0 14px; }
-  .page-head h1 { font-size: 28px; margin: 0; letter-spacing: -.02em; }
+  /* ritme vertikal: blok yang numpuk selalu dapat jarak, nggak ada yang nempel */
+  #view > * + *, .col-a > * + *, .col-b > * + * { margin-top: 16px; }
+  #view > .sec, .col-a > .sec, .col-b > .sec { margin-top: 30px; }
+  .col-a > .sec:first-child, .col-b > .sec:first-child { margin-top: 0; }
+  .col-a + .col-b { margin-top: 30px; }
 
-  .saldo { text-align: center; padding: 14px 0 22px; }
-  .saldo .lbl { color: var(--muted); font-size: 14px; }
-  .saldo .big { font-size: 40px; font-weight: 700; letter-spacing: -.03em; margin: 2px 0 8px; }
-  .delta { display: inline-flex; gap: 6px; align-items: center; padding: 5px 12px; border-radius: 99px; background: var(--card2); font-size: 13px; color: var(--muted); max-width: 100%; }
+  /* permukaan */
+  .card, .panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: 16px; }
 
-  .sec { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 22px 2px 10px; }
-  .sec h2 { font-size: 20px; margin: 0; letter-spacing: -.01em; min-width: 0; }
-  .sec .tag { border: 1px solid var(--line); background: var(--card); border-radius: 99px; padding: 5px 12px; font-size: 13px; font-weight: 600; display: inline-flex; gap: 4px; align-items: center; white-space: nowrap; flex: none; }
+  /* bagian atas halaman */
+  .topbar { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; }
+  .icon-btn { width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--rule); background: var(--sheet); display: grid; place-items: center; color: var(--ink); flex: none; }
+  .pill { justify-self: center; border: 0; background: none; padding: 8px 6px; font-weight: 650; font-size: 16px; display: inline-flex; gap: 4px; align-items: center; white-space: nowrap; flex: none; color: var(--ink); }
+  .page-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .page-head h1 { font-family: var(--display); font-size: 32px; font-weight: 750; letter-spacing: -.025em; margin: 0; line-height: 1.1; }
+  .sec { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .sec h2 { font-family: var(--display); font-size: 21px; font-weight: 700; letter-spacing: -.015em; margin: 0; min-width: 0; }
+  .tag { border: 0; background: none; padding: 4px 0; font-size: 14px; font-weight: 600; display: inline-flex; gap: 3px; align-items: center; white-space: nowrap; flex: none; color: var(--accent); }
+  .link-btn { border: 0; background: none; color: var(--accent); font-weight: 600; font-size: 14px; padding: 4px 0; flex: none; }
 
-  .duo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
-  .stat { padding: 14px; border: 0; text-align: left; min-width: 0; }
-  .stat .ico { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: 17px; margin-bottom: 10px; }
-  .stat .v { font-size: 19px; font-weight: 700; margin-top: 2px; letter-spacing: -.01em; }
-  .stat.on { outline: 2px solid var(--accent); }
+  /* hero Beranda: jatah aman per hari sampai gajian */
+  .hero { padding: 6px 2px 0; }
+  .hero p { margin: 0; }
+  .hero-k { font-size: 15px; color: var(--ink-2); }
+  .hero-v { font-family: var(--display); font-size: 52px; font-weight: 760; letter-spacing: -.035em; line-height: 1.02; margin: 6px 0 8px !important; font-variant-numeric: tabular-nums; }
+  .hero-v .per { font-size: .42em; font-weight: 600; letter-spacing: -.01em; color: var(--ink-2); margin-left: 4px; }
+  .hero-s { font-size: 15px; }
+  .hero .btn { margin-top: 16px; }
+  .hero.small .hero-v { font-size: 38px; }
+  .track { margin-top: 18px; display: grid; gap: 8px; }
+  .track-row { display: grid; grid-template-columns: 52px 1fr 40px; align-items: center; gap: 10px; font-size: 13px; color: var(--ink-2); }
+  .track-row b { text-align: right; color: var(--ink); font-weight: 650; }
+  .track .bar { margin: 0; height: 10px; }
+  .track .bar.t i { background: var(--ink-2); }
+  .track .bar.m i { background: var(--accent); }
+  .track .bar.m.over i { background: var(--out); }
+  .track-ends { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-2); padding-left: 62px; padding-right: 50px; }
+  .note { margin-bottom: 0; font-size: 14px; color: var(--ink-2); }
+  .hero .note { margin-top: 10px; }
+  .note b { color: var(--ink); }
 
-  .insight { margin-top: 10px; padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; font-size: 14px; }
-  .insight .spark { color: var(--accent); margin-top: 1px; }
+  /* angka ringkas: tiga kolom tanpa kartu, dipisah garis */
+  .figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .figs.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .figs > * { padding: 12px 10px 12px 0; min-width: 0; border: 0; background: none; text-align: left; display: block; }
+  .figs > * + * { border-left: 1px solid var(--rule); padding-left: 12px; }
+  .figs span { display: block; font-size: 13px; color: var(--ink-2); }
+  .figs b { font-family: var(--display); font-size: 18px; font-weight: 700; letter-spacing: -.01em; margin-top: 2px; }
+  .figs > button.on { box-shadow: inset 0 -3px 0 var(--accent); }
+  @media (max-width: 400px) {
+    .figs:not(.two) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .figs:not(.two) > :nth-child(3) { grid-column: 1 / -1; border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); }
+  }
 
-  /* transaksi */
-  .dayhead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; font-size: 13px; color: var(--muted); margin: 16px 4px 8px; font-weight: 600; }
-  .tx { display: flex; gap: 12px; align-items: center; padding: 12px 14px; margin-bottom: 8px; }
-  .tx .ico { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; font-size: 20px; flex: none; background: var(--card2); }
-  .tx .meta { flex: 1; min-width: 0; }
-  .tx .r1, .tx .r2 { display: flex; justify-content: space-between; gap: 10px; min-width: 0; }
-  .tx .r1 { align-items: flex-start; }
-  .tx .r2 { align-items: center; margin-top: 3px; }
-  .tx .title { font-weight: 600; font-size: 15px; line-height: 1.3; flex: 1; min-width: 0; }
-  .tx .amt { text-align: right; font-weight: 700; white-space: nowrap; flex: none; font-size: 15px; line-height: 1.3; }
-  .tx .time { font-size: 12px; color: var(--muted); flex: none; }
-  @media (max-width: 360px) { .tx .amt, .tx .title { font-size: 14px; } .tx { gap: 10px; padding: 12px; } .tx .ico { width: 38px; height: 38px; font-size: 18px; } }
-  .wbadge { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); min-width: 0; flex: 1; }
-  .wbadge > span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  /* daftar transaksi: satu panel per hari, garis tipis antar baris */
+  .day + .day { margin-top: 18px; }
+  .dayhead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; font-size: 13px; color: var(--ink-2); font-weight: 600; margin: 0 2px 8px; }
+  .dayhead .num { display: inline-flex; gap: 10px; }
+  .txlist { background: var(--sheet); border: 1px solid var(--rule); border-radius: 16px; overflow: hidden; }
+  .tx, .wrow { display: flex; gap: 12px; align-items: center; width: 100%; padding: 12px 14px; border: 0; background: none; text-align: left; min-width: 0; }
+  .txlist > * + * { border-top: 1px solid var(--rule); }
+  .mark { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; font-size: 19px; flex: none; background: color-mix(in srgb, var(--c, var(--ink-2)) 16%, var(--sheet)); }
+  .mark.xfer { color: var(--accent); background: var(--accent-soft); }
+  .tx-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .tx-title { font-weight: 600; font-size: 15px; line-height: 1.3; }
+  .tx-meta { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-2); min-width: 0; flex-wrap: wrap; row-gap: 2px; }
+  .tx-meta .arrow { color: var(--ink-2); }
+  .wtag { display: inline-flex; align-items: center; gap: 5px; min-width: 0; max-width: 100%; }
+  .wtag i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+  .tx-side { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; max-width: 48%; }
+  .tx-amt { font-weight: 650; font-size: 15px; white-space: nowrap; }
+  .tx-amt.xfer { color: var(--ink-2); }
+  .tx-time { font-size: 12px; color: var(--ink-2); }
+  @media (max-width: 360px) { .tx { gap: 10px; padding: 11px 12px; } .mark { width: 34px; height: 34px; font-size: 17px; } .tx-title, .tx-amt { font-size: 14px; } }
+  .empty { text-align: center; padding: 28px 18px; color: var(--ink-2); font-size: 15px; border: 1.5px dashed var(--rule); border-radius: 16px; }
+  .empty .btn { margin-top: 14px; width: auto; padding: 11px 18px; }
+
+  /* titik akun dipakai di form */
   .wdot { width: 18px; height: 18px; border-radius: 6px; color: #fff; font-size: 8px; font-weight: 800; display: grid; place-items: center; flex: none; letter-spacing: -.02em; overflow: hidden; }
-  .empty { text-align: center; padding: 30px 18px; color: var(--muted); font-size: 15px; }
-  /* jarak antar blok: card yang muncul tepat di bawah card/blok lain nggak boleh nempel */
-  .duo + .card, .duo + .duo, .cal + .duo, .card + .empty, .btn + .card, .btn + .empty, .insight + .card { margin-top: 12px; }
+  .wbadge { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-2); min-width: 0; flex: 1; }
 
-  /* dompet */
-  .cards { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 4px 16px 6px; scrollbar-width: none; }
-  .cards::-webkit-scrollbar { display: none; }
-  .wcard { flex: 0 0 80%; min-width: 0; scroll-snap-align: center; border-radius: 22px; padding: 18px; color: #fff; min-height: 168px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; border: 0; text-align: left; position: relative; overflow: hidden; }
-  .wcard::after { content: ""; position: absolute; right: -40px; top: -40px; width: 160px; height: 160px; border-radius: 50%; background: rgba(255,255,255,.12); pointer-events: none; }
-  .wcard > * { position: relative; z-index: 1; min-width: 0; }
-  .wcard .nm { font-size: 18px; font-weight: 700; }
-  .wcard .bal { font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
-  .actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; margin-top: 14px; }
-  .action { display: flex; align-items: center; gap: 10px; padding: 12px; border: 0; text-align: left; min-width: 0; font-size: 15px; line-height: 1.25; }
-  @media (max-width: 360px) { .action { flex-direction: column; align-items: flex-start; gap: 8px; } }
-  .action .ico { width: 36px; height: 36px; border-radius: 12px; background: var(--soft); color: var(--accent); display: grid; place-items: center; flex: none; }
-  .wrow { display: flex; align-items: center; gap: 12px; padding: 14px; margin-bottom: 8px; border: 0; width: 100%; text-align: left; }
-  .wrow > .wdot { width: 40px; height: 40px; border-radius: 50%; font-size: 11px; }
-  .wrow .bal { font-weight: 700; white-space: nowrap; flex: none; text-align: right; }
-
-  /* kantong */
-  .pockets { display: flex; gap: 10px; overflow-x: auto; margin: 0 -16px; padding: 2px 16px 6px; scrollbar-width: none; scroll-snap-type: x proximity; }
+  /* ===== amplop kantong ===== */
+  .pockets { display: flex; gap: 12px; overflow-x: auto; margin-inline: -16px; padding: 4px 16px 8px; scrollbar-width: none; scroll-snap-type: x proximity; }
   .pockets::-webkit-scrollbar { display: none; }
-  .pcard { flex: 0 0 158px; min-width: 0; padding: 14px; border: 0; text-align: left; display: flex; flex-direction: column; gap: 4px; scroll-snap-align: start; }
-  .pcard .top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; min-width: 0; font-size: 14px; }
-  .pcard .v { font-size: 17px; font-weight: 700; }
-  .pcard .bar { margin-top: 6px; }
-  .pcard.add { align-items: center; justify-content: center; color: var(--accent); font-weight: 600; border: 1.5px dashed var(--line); background: transparent; box-shadow: none; flex-basis: 120px; }
-  .pcard.free { background: var(--soft); box-shadow: none; }
-  .prow { padding: 14px; margin-bottom: 8px; border: 0; width: 100%; text-align: left; display: block; }
-  .pinfo { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 9px 11px; border-radius: 12px; background: var(--card2); font-size: 13px; }
-  .chip .sub { font-size: 11px; color: var(--muted); font-weight: 400; }
+  .env { --c: var(--accent); position: relative; flex: 0 0 156px; height: 124px; scroll-snap-align: start; border: 1px solid color-mix(in srgb, var(--c) 35%, var(--rule)); border-radius: 12px; background: color-mix(in srgb, var(--c) 7%, var(--sheet)); overflow: hidden; text-align: left; padding: 0; color: var(--ink); }
+  .env-fill { position: absolute; left: 0; right: 0; bottom: 0; background: color-mix(in srgb, var(--c) 24%, var(--sheet)); transition: height .5s cubic-bezier(.2,.8,.2,1); }
+  .env-flap { position: absolute; left: 0; right: 0; top: 0; height: 52px; background: color-mix(in srgb, var(--c) 30%, var(--sheet)); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+  .env-flap::after { content: ""; position: absolute; left: 50%; top: 38px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: var(--c); }
+  .env-body { position: absolute; left: 12px; right: 12px; bottom: 10px; display: flex; flex-direction: column; gap: 1px; }
+  .env-name { display: flex; gap: 5px; align-items: center; font-size: 13px; font-weight: 600; min-width: 0; }
+  .env-v { font-family: var(--display); font-size: 19px; font-weight: 720; letter-spacing: -.015em; }
+  .env-s { font-size: 12px; color: var(--ink-2); }
+  .env.over { border-color: var(--out); border-style: dashed; }
+  .env.over .env-v { color: var(--out); }
+  .env.free { --c: var(--ink-2); border-style: dashed; background: transparent; }
+  .env.free .env-flap { background: transparent; border: 0; clip-path: none; }
+  .env.free .env-flap::after { display: none; }
+  .env.add { flex-basis: 96px; display: grid; place-items: center; align-content: center; gap: 6px; color: var(--accent); font-weight: 600; font-size: 14px; border: 1.5px dashed var(--rule); background: transparent; }
+  .prow { padding: 14px; border: 0; width: 100%; text-align: left; display: block; background: none; }
+  .pinfo { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 9px 11px; border-radius: 10px; background: var(--sunk); font-size: 13px; }
+  .chip .sub { font-size: 11px; color: var(--ink-2); font-weight: 400; margin-left: 2px; }
+  .on .sub { color: inherit; opacity: .8; }
 
-  /* kalender */
-  .cal { padding: 14px 8px; }
-  .cal .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: 4px; text-align: center; }
-  .cal .wd { font-size: 11px; color: var(--muted); font-weight: 600; padding-bottom: 6px; }
-  .cal .d { border: 0; background: none; width: 100%; max-width: 44px; aspect-ratio: 1; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 15px; justify-self: center; padding: 0; }
-  .cal .d.today { box-shadow: inset 0 0 0 1.5px var(--accent); }
-  .cal .d.sel { background: var(--accent); color: var(--on-accent); }
+  /* ===== dompet ===== */
+  .cards { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -16px; padding: 2px 16px 6px; scrollbar-width: none; }
+  .cards::-webkit-scrollbar { display: none; }
+  .wcard { flex: 0 0 78%; min-width: 0; scroll-snap-align: center; border-radius: 16px; padding: 16px 18px; color: #fff; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; border: 0; text-align: left; position: relative; overflow: hidden; }
+  .wcard > * { position: relative; min-width: 0; }
+  .wcard .nm { font-size: 17px; font-weight: 700; }
+  .wcard .bal { font-family: var(--display); font-size: 27px; font-weight: 720; letter-spacing: -.02em; }
+  .actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+  .action { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border: 1px solid var(--rule); border-radius: 14px; background: var(--sheet); font-size: 15px; font-weight: 600; color: var(--accent); min-width: 0; }
+  .wrow > .wdot { width: 38px; height: 38px; border-radius: 11px; font-size: 10px; }
+  .wrow .bal { font-weight: 650; white-space: nowrap; flex: none; text-align: right; }
+
+  /* ===== kalender ===== */
+  .cal { padding: 12px 8px; }
+  .cal .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: 2px; text-align: center; }
+  .cal .wd { font-size: 12px; color: var(--ink-2); font-weight: 600; padding-bottom: 6px; }
+  .cal .d { border: 0; background: none; width: 100%; max-width: 44px; aspect-ratio: 1; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 15px; justify-self: center; padding: 0; }
+  .cal .d.today { box-shadow: inset 0 0 0 1.5px var(--ink); font-weight: 700; }
+  .cal .d.sel { background: var(--ink); color: var(--paper); }
   .cal .dots { display: flex; gap: 3px; height: 5px; margin-top: 2px; }
   .cal .dots i { width: 5px; height: 5px; border-radius: 50%; }
-  .cal .d.sel .dots i { background: var(--on-accent) !important; }
-  .banner { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--soft); color: var(--accent); border-radius: 12px; padding: 10px 12px; font-size: 13px; font-weight: 600; margin: 10px 6px 0; }
-  .banner button { border: 0; background: none; color: inherit; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; padding: 0; white-space: nowrap; flex: none; }
+  .cal .d.sel .dots i { background: var(--paper) !important; }
+  .banner { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid var(--rule); padding: 10px 8px 2px; margin-top: 8px; font-size: 14px; font-weight: 600; }
+  .banner button { border: 0; background: none; color: var(--accent); font-weight: 600; display: inline-flex; align-items: center; gap: 4px; padding: 0; white-space: nowrap; flex: none; }
 
-  /* laporan */
+  /* ===== laporan ===== */
   .donut-wrap { padding: 18px; display: flex; flex-direction: column; align-items: center; }
   .legend { width: 100%; margin-top: 14px; }
-  .legend .li { display: flex; align-items: center; gap: 10px; padding: 9px 2px; border-top: 1px solid var(--line); font-size: 15px; }
+  .legend .li { display: flex; align-items: center; gap: 10px; padding: 9px 2px; border-top: 1px solid var(--rule); font-size: 15px; }
   .legend .sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
   .legend .v { white-space: nowrap; flex: none; text-align: right; }
-  .budget { padding: 14px; margin-bottom: 8px; }
-  .budget .pct { font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 99px; background: var(--card2); flex: none; }
-  .budget .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; margin-top: 8px; font-size: 13px; color: var(--muted); }
-  .bar { height: 8px; background: var(--card2); border-radius: 99px; overflow: hidden; margin-top: 10px; }
+  .budget .pct { font-size: 13px; font-weight: 650; flex: none; }
+  .budget .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; margin-top: 8px; font-size: 13px; color: var(--ink-2); }
+  .bar { height: 8px; background: var(--sunk); border-radius: 99px; overflow: hidden; margin-top: 10px; }
   .bar i { display: block; height: 100%; border-radius: 99px; background: var(--accent); }
-  .bar.warn i { background: #f59e0b; }
+  .bar.warn i { background: var(--warn); }
   .bar.over i { background: var(--out); }
-  .link-btn { border: 0; background: none; color: var(--accent); font-weight: 600; font-size: 14px; padding: 0; flex: none; }
   .flow { padding: 16px 14px 12px; }
   .flow .bars { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; height: 140px; gap: 6px; }
   .flow .col { display: flex; gap: 3px; align-items: flex-end; justify-content: center; height: 100%; }
-  .flow .col i { width: 12px; border-radius: 4px 4px 2px 2px; min-height: 2px; }
-  .flow .lbls { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); text-align: center; font-size: 12px; color: var(--muted); margin-top: 6px; }
-  .flow .lbls .on { color: var(--text); font-weight: 700; }
-  .keys { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  .flow .col i { width: 12px; border-radius: 3px 3px 1px 1px; min-height: 2px; }
+  .flow .lbls { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); text-align: center; font-size: 12px; color: var(--ink-2); margin-top: 6px; }
+  .flow .lbls .on { color: var(--ink); font-weight: 700; }
+  .keys { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--ink-2); margin-bottom: 12px; }
   .keys span { display: inline-flex; align-items: center; gap: 6px; }
   .keys i { width: 10px; height: 10px; border-radius: 3px; }
 
-  /* nav */
-  nav { position: fixed; left: 12px; right: 12px; bottom: calc(env(safe-area-inset-bottom) + 8px); max-width: 536px; margin: 0 auto; height: 66px; border-radius: 26px; background: color-mix(in srgb, var(--card) 86%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.6); backdrop-filter: blur(18px) saturate(1.6); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: center; padding: 0 6px; box-shadow: 0 8px 30px rgba(15,23,42,.14); border: 1px solid var(--line); z-index: 20; }
-  nav .tab { border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; color: var(--muted); padding: 7px 0; border-radius: 18px; margin: 0 2px; min-width: 0; white-space: nowrap; }
-  nav .tab.on { background: var(--soft); color: var(--accent); font-weight: 700; }
-  .fab { justify-self: center; width: 58px; height: 58px; border-radius: 50%; border: 0; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; box-shadow: 0 8px 22px rgba(37,99,235,.45); transform: translateY(-16px); transition: transform .2s; }
-  .fab.open { transform: translateY(-16px) rotate(45deg); }
-  .fab-menu { position: fixed; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 104px); display: flex; justify-content: center; gap: 34px; z-index: 19; pointer-events: none; }
-  .fab-menu button { width: 58px; height: 58px; border-radius: 50%; border: 0; background: var(--card); color: var(--accent); display: grid; place-items: center; box-shadow: 0 8px 22px rgba(15,23,42,.2); opacity: 0; transform: translateY(30px) scale(.6); transition: .22s ease; position: relative; }
-  .fab-menu button span { position: absolute; top: 64px; font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; left: 50%; transform: translateX(-50%); }
+  /* ===== nav bawah ===== */
+  nav { position: fixed; left: 0; right: 0; bottom: 0; padding: 6px 8px calc(env(safe-area-inset-bottom) + 6px); background: color-mix(in srgb, var(--sheet) 92%, transparent); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border-top: 1px solid var(--rule); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: center; z-index: 20; }
+  nav .tab { border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: var(--ink-2); padding: 6px 0; min-width: 0; white-space: nowrap; font-weight: 500; }
+  nav .tab.on { color: var(--ink); font-weight: 700; }
+  nav .tab.on svg { stroke-width: 2.4; }
+  .fab { justify-self: center; width: 54px; height: 46px; border-radius: 15px; border: 0; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; transition: transform .2s; }
+  .fab svg { transition: transform .2s; }
+  .fab.open svg { transform: rotate(45deg); }
+  .fab-menu { position: fixed; left: 16px; right: 16px; bottom: calc(env(safe-area-inset-bottom) + 78px); display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 19; pointer-events: none; }
+  .fab-menu button { width: min(280px, 100%); height: 52px; border-radius: 14px; border: 1px solid var(--rule); background: var(--sheet); color: var(--ink); display: flex; align-items: center; gap: 12px; padding: 0 18px; font-weight: 600; font-size: 16px; opacity: 0; transform: translateY(12px); transition: opacity .18s ease, transform .18s ease; }
+  .fab-menu button svg { color: var(--accent); }
+  .fab-menu button span { position: static; }
   .fab-menu.open { pointer-events: auto; }
   .fab-menu.open button { opacity: 1; transform: none; }
-  .fab-menu.open button:nth-child(2) { transform: translateY(-24px); }
-  .scrim { position: fixed; inset: 0; background: color-mix(in srgb, var(--bg) 60%, transparent); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); z-index: 18; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .fab-menu.open button:nth-child(2) { transition-delay: .03s; }
+  .fab-menu.open button:nth-child(3) { transition-delay: .06s; }
+  .scrim { position: fixed; inset: 0; background: color-mix(in srgb, var(--paper) 70%, transparent); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); z-index: 18; opacity: 0; pointer-events: none; transition: opacity .18s; }
   .scrim.open { opacity: 1; pointer-events: auto; }
 
-  /* sheet */
-  .sheet-bg { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 40; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  /* ===== sheet / form ===== */
+  .sheet-bg { position: fixed; inset: 0; background: rgba(8,20,16,.45); z-index: 40; opacity: 0; pointer-events: none; transition: opacity .2s; }
   .sheet-bg.open { opacity: 1; pointer-events: auto; }
-  .sheet { position: fixed; left: 0; right: 0; bottom: 0; max-width: 560px; margin: 0 auto; background: var(--bg); border-radius: 24px 24px 0 0; padding: 10px 16px calc(env(safe-area-inset-bottom) + 16px); z-index: 41; transform: translateY(105%); transition: transform .28s cubic-bezier(.2,.8,.2,1); max-height: 92vh; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; }
+  .sheet { position: fixed; left: 0; right: 0; bottom: 0; max-width: 560px; margin: 0 auto; background: var(--paper); border-radius: 22px 22px 0 0; padding: 10px 16px calc(env(safe-area-inset-bottom) + 16px); z-index: 41; transform: translateY(105%); transition: transform .28s cubic-bezier(.2,.8,.2,1); max-height: 92vh; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; }
   .sheet.open { transform: none; }
-  .grab { width: 40px; height: 5px; border-radius: 9px; background: var(--line); margin: 0 auto 10px; }
+  .grab { width: 38px; height: 5px; border-radius: 9px; background: var(--rule); margin: 0 auto 10px; }
   .sheet-head { display: grid; grid-template-columns: 40px minmax(0, 1fr) 40px; gap: 8px; align-items: center; margin-bottom: 14px; }
-  .sheet-head h3 { margin: 0; text-align: center; font-size: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); background: var(--card2); border-radius: 14px; padding: 4px; margin-bottom: 14px; }
-  .seg button { border: 0; background: none; padding: 9px 2px; border-radius: 11px; font-weight: 600; color: var(--muted); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .seg button.on { background: var(--card); color: var(--text); box-shadow: var(--shadow); }
-  .field { background: var(--card); border-radius: 16px; padding: 12px 14px; margin-bottom: 10px; min-width: 0; }
-  .field > label, .field > .lbl { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 8px; }
+  .sheet-head h3 { margin: 0; text-align: center; font-family: var(--display); font-size: 19px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); background: var(--sunk); border-radius: 12px; padding: 3px; margin-bottom: 14px; }
+  .seg button { border: 0; background: none; padding: 9px 2px; border-radius: 10px; font-weight: 600; color: var(--ink-2); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .seg button.on { background: var(--sheet); color: var(--ink); box-shadow: 0 0 0 1px var(--rule); }
+  .field { background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; min-width: 0; }
+  .field > label, .field > .lbl { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--ink-2); font-weight: 600; margin-bottom: 8px; }
   .amount { display: flex; align-items: baseline; gap: 6px; }
-  .amount span { font-size: 22px; color: var(--muted); font-weight: 700; }
-  .amount input { flex: 1; min-width: 0; width: 100%; border: 0; background: none; font-size: 32px; font-weight: 700; outline: none; padding: 0; }
+  .amount span { font-family: var(--display); font-size: 22px; color: var(--ink-2); font-weight: 700; }
+  .amount input { flex: 1; min-width: 0; width: 100%; border: 0; background: none; font-family: var(--display); font-size: 34px; font-weight: 720; letter-spacing: -.02em; outline: none; padding: 0; }
   .quick { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
-  .quick button { border: 1px solid var(--line); background: var(--card2); border-radius: 99px; padding: 6px 11px; font-size: 13px; font-weight: 600; }
+  .quick button { border: 1px solid var(--rule); background: var(--paper); border-radius: 9px; padding: 6px 10px; font-size: 13px; font-weight: 600; }
   .chips { display: flex; flex-wrap: wrap; gap: 7px; }
   .chips.scroll { flex-wrap: nowrap; overflow-x: auto; margin: 0 -14px; padding: 2px 14px; scrollbar-width: none; }
   .chips.scroll::-webkit-scrollbar { display: none; }
-  .chip { border: 1.5px solid var(--line); background: var(--card); border-radius: 99px; padding: 7px 11px; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; flex: none; max-width: 100%; white-space: nowrap; }
-  .chip.on { border-color: var(--accent); background: var(--soft); font-weight: 700; }
-  .chip.add { border-style: dashed; color: var(--accent); font-weight: 600; }
+  .chip { border: 1px solid var(--rule); background: var(--paper); border-radius: 10px; padding: 7px 10px; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; flex: none; max-width: 100%; white-space: nowrap; }
+  .chip.on { border-color: var(--ink); background: var(--ink); color: var(--paper); font-weight: 650; }
+  .chip.add { border-style: dashed; color: var(--accent); font-weight: 600; background: transparent; }
   .chip .wdot { width: 16px; height: 16px; font-size: 7px; border-radius: 5px; }
   .in { width: 100%; min-width: 0; border: 0; background: none; font-size: 16px; outline: none; padding: 0; }
   .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
   .btns { display: grid; grid-template-columns: 1fr 1.6fr; gap: 10px; margin-top: 6px; }
-  .btn { width: 100%; border: 0; border-radius: 99px; padding: 15px; font-weight: 700; font-size: 16px; background: var(--accent); color: var(--on-accent); display: inline-flex; justify-content: center; align-items: center; gap: 6px; }
-  .btn.ghost { background: var(--card); color: var(--text); border: 1px solid var(--line); }
+  .btn { width: 100%; border: 0; border-radius: 14px; padding: 15px; font-weight: 700; font-size: 16px; background: var(--accent); color: var(--on-accent); display: inline-flex; justify-content: center; align-items: center; gap: 6px; }
+  .btn.ghost { background: var(--sheet); color: var(--ink); border: 1px solid var(--rule); }
   .btn.danger { background: var(--out-soft); color: var(--out); }
   .btn + .btn { margin-top: 10px; }
   .btns .btn + .btn { margin-top: 0; }
-  .menu-list { background: var(--card); border-radius: 16px; overflow: hidden; margin-bottom: 14px; }
-  .menu-list > * { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; padding: 13px 14px; border: 0; background: none; border-bottom: 1px solid var(--line); text-align: left; font-size: 16px; min-width: 0; }
+  .menu-list { background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; margin-bottom: 14px; }
+  .menu-list > * { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; padding: 13px 14px; border: 0; background: none; border-bottom: 1px solid var(--rule); text-align: left; font-size: 16px; min-width: 0; }
   .menu-list > *:last-child { border-bottom: 0; }
   .menu-list input { text-align: right; width: 120px; flex: none; border: 0; background: none; outline: none; font-size: 16px; }
   .menu-list .left { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
-  .menu-list .right { display: flex; align-items: center; gap: 4px; color: var(--muted); font-size: 14px; flex: none; white-space: nowrap; }
+  .menu-list .right { display: flex; align-items: center; gap: 4px; color: var(--ink-2); font-size: 14px; flex: none; white-space: nowrap; }
   .cico { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: 18px; flex: none; }
   .months { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-  .months button { border: 0; background: var(--card); border-radius: 14px; padding: 14px 0; font-weight: 600; }
-  .months button.on { background: var(--accent); color: var(--on-accent); }
+  .months button { border: 1px solid var(--rule); background: var(--sheet); border-radius: 12px; padding: 14px 0; font-weight: 600; }
+  .months button.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
   .colors { display: flex; gap: 10px; flex-wrap: wrap; }
   .colors button { width: 32px; height: 32px; border-radius: 50%; border: 3px solid transparent; }
-  .colors button.on { border-color: var(--text); }
+  .colors button.on { border-color: var(--ink); }
   .emojis { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; margin-top: 10px; }
-  .emojis button { border: 0; background: var(--card2); border-radius: 10px; aspect-ratio: 1; font-size: 20px; padding: 0; }
-  .emojis button.on { background: var(--soft); box-shadow: inset 0 0 0 2px var(--accent); }
-  .emoji-in { width: 52px; height: 52px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--card2); text-align: center; font-size: 26px; outline: none; padding: 0; flex: none; }
+  .emojis button { border: 0; background: var(--sunk); border-radius: 10px; aspect-ratio: 1; font-size: 20px; padding: 0; }
+  .emojis button.on { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
+  .emoji-in { width: 52px; height: 52px; border-radius: 12px; border: 1px solid var(--rule); background: var(--paper); text-align: center; font-size: 26px; outline: none; padding: 0; flex: none; }
   .cgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-  .ctile { border: 1.5px solid transparent; background: var(--card); border-radius: 16px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; text-align: center; min-width: 0; line-height: 1.2; }
+  .ctile { border: 1px solid var(--rule); background: var(--sheet); border-radius: 14px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; text-align: center; min-width: 0; line-height: 1.2; }
   .ctile .cico { width: 40px; height: 40px; border-radius: 12px; font-size: 20px; }
   .ctile .n { width: 100%; min-height: 2.4em; }
-  .ctile.on { border-color: var(--accent); background: var(--soft); font-weight: 700; }
+  .ctile.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); font-weight: 700; }
   .ctile.add .cico { border: 1.5px dashed var(--accent); color: var(--accent); }
-  .search { display: flex; align-items: center; gap: 8px; background: var(--card); border-radius: 14px; padding: 10px 12px; margin-bottom: 12px; color: var(--muted); }
-  .hint { font-size: 13px; color: var(--muted); margin: 0 4px 12px; }
-  .grp { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin: 4px 2px 8px; }
+  .search { display: flex; align-items: center; gap: 8px; background: var(--sheet); border: 1px solid var(--rule); border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; color: var(--ink-2); }
+  .hint { font-size: 13px; color: var(--ink-2); margin: 0 4px 12px; }
+  .grp { font-size: 13px; font-weight: 650; color: var(--ink-2); margin: 4px 2px 8px; }
+  .duo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+  .stat { padding: 14px; text-align: left; min-width: 0; }
+  .stat .v { font-family: var(--display); font-size: 20px; font-weight: 720; margin-top: 2px; letter-spacing: -.015em; }
   .voice { text-align: center; padding: 6px 0 10px; }
-  .mic { width: 84px; height: 84px; border-radius: 50%; border: 0; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; margin: 8px auto 12px; box-shadow: 0 8px 24px rgba(37,99,235,.4); }
+  .mic { width: 84px; height: 84px; border-radius: 26px; border: 0; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; margin: 8px auto 12px; }
   .mic.live { animation: pulse 1.2s infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37,99,235,.5); } 100% { box-shadow: 0 0 0 26px rgba(37,99,235,0); } }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent); } 100% { box-shadow: 0 0 0 24px transparent; } }
   textarea.in { resize: none; min-height: 64px; line-height: 1.4; }
 
   /* login */
   .auth { max-width: 400px; margin: 8vh auto 0; }
+  .auth h1 { font-family: var(--display); font-size: 40px; font-weight: 760; letter-spacing: -.03em; }
   body.authing nav, body.authing .fab-menu { display: none; }
   /* titik status sinkron */
-  .sdot { position: absolute; right: 1px; top: 1px; width: 10px; height: 10px; border-radius: 50%; background: var(--muted); border: 2px solid var(--card); }
+  .sdot { position: absolute; right: -2px; top: -2px; width: 10px; height: 10px; border-radius: 50%; background: var(--ink-2); border: 2px solid var(--paper); }
   .sdot[data-s="ok"] { background: var(--in); }
-  .sdot[data-s="syncing"] { background: #f59e0b; }
+  .sdot[data-s="syncing"] { background: var(--warn); }
   .sdot[data-s="error"] { background: var(--out); }
   .desk { display: none !important; }
   .layout { display: block; }
   /* iOS (mode home screen) salah ngitung tinggi layar kalau isi halaman lebih pendek dari layar:
-     nav bar jadi naik setinggi status bar. Halaman yang lebih tinggi dari layar nggak kena,
-     jadi di mode app halaman dibikin selalu sedikit lebih tinggi dari layar. */
+     nav bar jadi naik setinggi status bar. Di mode app halaman dibikin selalu sedikit lebih tinggi dari layar. */
   html.pwa body { min-height: calc(100vh + env(safe-area-inset-top) + 1px); }
   html.pwa { overscroll-behavior-y: none; }
-  /* di HP kolom kanan numpuk di bawah kolom kiri: card pertamanya butuh jarak juga */
-  @media (max-width: 899px) { .col-a + .col-b > .card:first-child { margin-top: 12px; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0s !important; animation: none !important; }
+  }
 
   /* ===== tampilan PC / tablet landscape ===== */
   @media (min-width: 900px) {
-    body { max-width: none; padding: 28px 32px 40px 296px; }
+    body { max-width: none; padding: 32px 40px 48px 296px; }
     body::before { display: none; }
-    body.authing { padding-left: 32px; }
-    #view { max-width: 1160px; margin: 0 auto; }
+    body.authing { padding-left: 40px; }
+    #view { max-width: 1120px; margin: 0 auto; }
     .desk { display: flex !important; }
-    .layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
-    .col-b > .dayhead:first-child { margin-top: 4px; }
-    .col-b > .sec:first-child, .col-a > .sec:first-child { margin-top: 4px; }
-    .page-head h1 { font-size: 32px; }
-    .saldo { text-align: left; background: var(--card); border-radius: 20px; padding: 22px; box-shadow: var(--shadow); margin-top: 6px; }
-    .topbar { grid-template-columns: 44px 1fr 44px; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+    .col-a + .col-b { margin-top: 0; }
+    .hero-v { font-size: 64px; }
 
-    nav { left: 16px; top: 16px; bottom: 16px; right: auto; width: 248px; height: auto; max-width: none; margin: 0; display: flex; flex-direction: column; align-items: stretch; padding: 18px 12px; gap: 4px; border-radius: 24px; background: var(--card); -webkit-backdrop-filter: none; backdrop-filter: none; }
-    nav .brand { align-items: center; gap: 10px; font-size: 20px; font-weight: 800; padding: 4px 10px 16px; letter-spacing: -.02em; }
-    nav .brand img { border-radius: 10px; }
-    nav .tab { flex-direction: row; gap: 12px; font-size: 15px; padding: 11px 14px; justify-content: flex-start; margin: 0; font-weight: 600; }
+    nav { left: 0; top: 0; bottom: 0; right: auto; width: 256px; padding: 22px 14px; display: flex; flex-direction: column; align-items: stretch; gap: 2px; border-top: 0; border-right: 1px solid var(--rule); background: var(--sheet); -webkit-backdrop-filter: none; backdrop-filter: none; }
+    nav .brand { order: -2; align-items: center; gap: 10px; font-family: var(--display); font-size: 22px; font-weight: 760; letter-spacing: -.02em; padding: 0 10px 18px; }
+    nav .brand img { border-radius: 9px; }
+    nav .tab { flex-direction: row; gap: 12px; font-size: 15px; padding: 10px 12px; justify-content: flex-start; border-radius: 10px; }
+    nav .tab.on { background: var(--paper); }
     nav .navset { margin-top: auto; position: relative; font-size: 14px; min-width: 0; }
     nav .navset .sdot { position: static; flex: none; border: 0; }
-    .fab { order: 0; width: auto; height: 48px; border-radius: 14px; transform: none; display: flex; gap: 8px; justify-content: center; align-items: center; margin: 4px 0 12px; font-weight: 700; font-size: 15px; box-shadow: 0 6px 16px rgba(37,99,235,.3); }
-    .fab svg { width: 20px; height: 20px; transition: transform .2s; }
-    .fab.open { transform: none; }
-    .fab.open svg { transform: rotate(45deg); }
-    nav .brand { order: -2; }
-    .fab { order: -1; }
-    .fab-menu { left: 276px; right: auto; top: 72px; bottom: auto; flex-direction: column; gap: 8px; width: 224px; z-index: 22; }
-    .fab-menu button { box-shadow: 0 8px 24px rgba(0,0,0,.25); border: 1px solid var(--line); }
-    .fab-menu button, .fab-menu.open button:nth-child(2) { width: 100%; height: 48px; border-radius: 14px; display: flex; justify-content: flex-start; gap: 12px; padding: 0 16px; transform: translateY(-8px); }
-    .fab-menu.open button, .fab-menu.open button:nth-child(2) { transform: none; }
-    .fab-menu button span { position: static; transform: none; font-size: 15px; }
-    .scrim { background: rgba(0,0,0,.15); }
+    .fab { order: -1; width: auto; height: 46px; border-radius: 12px; display: flex; gap: 8px; justify-content: center; align-items: center; margin: 0 0 16px; font-weight: 700; font-size: 15px; }
+    .fab svg { width: 20px; height: 20px; }
+    .fab-menu { left: 282px; right: auto; top: 72px; bottom: auto; width: 240px; align-items: stretch; z-index: 22; }
+    .fab-menu button { width: 100%; box-shadow: 0 10px 30px rgba(8,20,16,.18); }
+    .scrim { background: rgba(8,20,16,.12); }
 
-    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin: 0; padding: 0; overflow: visible; }
-    .wcard { flex: none; min-height: 150px; }
-    .pockets { flex-wrap: wrap; margin: 0; padding: 0; overflow: visible; }
-    .pcard { flex: 1 1 160px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin-inline: 0; padding: 0; overflow: visible; }
+    .wcard { flex: none; min-height: 140px; }
+    .pockets { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); margin-inline: 0; padding: 0; overflow: visible; }
+    .env { height: 128px; }
+    .env.add { height: 128px; }
 
-    .sheet { top: 50%; bottom: auto; left: 50%; right: auto; width: min(560px, calc(100vw - 48px)); margin: 0; border-radius: 24px; max-height: 86vh; transform: translate(-50%, -47%) scale(.98); opacity: 0; pointer-events: none; transition: transform .2s ease, opacity .2s ease; padding: 18px 20px 20px; box-shadow: 0 24px 60px rgba(0,0,0,.25); }
+    .sheet { top: 50%; bottom: auto; left: 50%; right: auto; width: min(560px, calc(100vw - 48px)); margin: 0; border-radius: 20px; max-height: 86vh; transform: translate(-50%, -47%) scale(.98); opacity: 0; pointer-events: none; transition: transform .2s ease, opacity .2s ease; padding: 18px 20px 20px; box-shadow: 0 30px 80px rgba(8,20,16,.28); }
     .sheet.open { transform: translate(-50%, -50%); opacity: 1; pointer-events: auto; }
     .grab { display: none; }
     .toast { top: 20px; }
   }
   @media (hover: hover) {
-    .tx:hover, .wrow:hover, .pcard:hover, .prow:hover, .action:hover, .stat[data-stat]:hover { box-shadow: inset 0 0 0 1.5px var(--accent); }
-    nav .tab:not(.on):hover, .menu-list > button:hover { background: var(--card2); }
-    .tx, .wrow, .pcard, .prow, .action { cursor: pointer; }
+    .tx:hover, .wrow:hover, .prow:hover, .menu-list > button:hover { background: color-mix(in srgb, var(--sunk) 55%, var(--sheet)); }
+    .env:hover { border-color: var(--c); }
+    nav .tab:not(.on):hover { color: var(--ink); }
   }
 
-  .toast { position: fixed; left: 50%; top: calc(env(safe-area-inset-top) + 12px); transform: translate(-50%, -200%); background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 12px; font-size: 14px; font-weight: 600; z-index: 60; transition: transform .25s; width: max-content; max-width: calc(100vw - 32px); text-align: center; }
+  .toast { position: fixed; left: 50%; top: calc(env(safe-area-inset-top) + 12px); transform: translate(-50%, -200%); background: var(--ink); color: var(--paper); padding: 10px 16px; border-radius: 12px; font-size: 14px; font-weight: 600; z-index: 60; transition: transform .25s; width: max-content; max-width: calc(100vw - 32px); text-align: center; }
   .toast.show { transform: translate(-50%, 0); }
 </style>
 </head>
@@ -401,11 +452,11 @@ const PROTECTED = ['lain', 'lain-in'];
 
 // Kantong: jatah bulanan dari gaji, isinya beberapa kategori
 const DEFAULT_POCKETS = [
-  { id: 'k-makan', kind: 'spend', icon: '🍜', name: 'Makan', color: '#f97316', amount: 0, goal: 0, catIds: ['makan', 'dapur'] },
-  { id: 'k-nongkrong', kind: 'spend', icon: '🍻', name: 'Nongkrong', color: '#c026d3', amount: 0, goal: 0, catIds: ['nongkrong', 'jajan', 'hiburan', 'sosial'] },
-  { id: 'k-transport', kind: 'spend', icon: '🛵', name: 'Transport', color: '#3b82f6', amount: 0, goal: 0, catIds: ['bensin', 'transport', 'parkir', 'kendaraan'] },
-  { id: 'k-tagihan', kind: 'spend', icon: '🧾', name: 'Tagihan', color: '#eab308', amount: 0, goal: 0, catIds: ['listrik', 'internet', 'kos', 'cicilan', 'langganan', 'asuransi'] },
-  { id: 'k-nabung', kind: 'save', icon: '🐷', name: 'Nabung', color: '#16a34a', amount: 0, goal: 0, catIds: ['tabungan'] },
+  { id: 'k-makan', kind: 'spend', icon: '🍜', name: 'Makan', color: '#C8435C', amount: 0, goal: 0, catIds: ['makan', 'dapur'] },
+  { id: 'k-nongkrong', kind: 'spend', icon: '🍻', name: 'Nongkrong', color: '#7A55A6', amount: 0, goal: 0, catIds: ['nongkrong', 'jajan', 'hiburan', 'sosial'] },
+  { id: 'k-transport', kind: 'spend', icon: '🛵', name: 'Transport', color: '#2F6CB0', amount: 0, goal: 0, catIds: ['bensin', 'transport', 'parkir', 'kendaraan'] },
+  { id: 'k-tagihan', kind: 'spend', icon: '🧾', name: 'Tagihan', color: '#97683C', amount: 0, goal: 0, catIds: ['listrik', 'internet', 'kos', 'cicilan', 'langganan', 'asuransi'] },
+  { id: 'k-nabung', kind: 'save', icon: '🐷', name: 'Nabung', color: '#2C8660', amount: 0, goal: 0, catIds: ['tabungan'] },
 ];
 
 const PRESETS = [
@@ -796,39 +847,37 @@ function render() {
 }
 
 function renderNav() {
-  const tab = (id, icon, label) => `<button class="tab ${ui.tab === id ? 'on' : ''}" data-tab="${id}">${ic(icon, 22)}${label}</button>`;
-  $('#nav').innerHTML = `<div class="brand desk"><img src="icon-192.png" alt="" width="34" height="34">Gajian</div>` +
+  const tab = (id, icon, label) => `<button class="tab ${ui.tab === id ? 'on' : ''}" data-tab="${id}">${ic(icon, 22, 1.8)}<span>${label}</span></button>`;
+  $('#nav').innerHTML = `<div class="brand desk"><img src="icon-192.png" alt="" width="32" height="32">Gajian</div>` +
     tab('home', 'home', 'Beranda') + tab('wallet', 'wallet', 'Dompet') +
-    `<button class="fab" id="fab" data-act="fab" aria-label="Catat">${ic('plus', 28, 2.4)}<span class="desk">Catat transaksi</span></button>` +
+    `<button class="fab" id="fab" data-act="fab" aria-label="Catat transaksi">${ic('plus', 26, 2.2)}<span class="desk">Catat</span></button>` +
     tab('activity', 'cal', 'Aktivitas') + tab('report', 'chart', 'Laporan') +
-    `<button class="tab desk navset" data-act="settings">${ic('user', 22)}<span class="grow ell" style="text-align:left">${session ? esc(session.user.email) : 'Pengaturan'}</span>${sb && session ? '<i class="sdot" id="syncDot2"></i>' : ''}</button>`;
+    `<button class="tab desk navset" data-act="settings">${ic('user', 22, 1.8)}<span class="grow ell" style="text-align:left">${session ? esc(session.user.email) : 'Pengaturan'}</span>${sb && session ? '<i class="sdot" id="syncDot2"></i>' : ''}</button>`;
 }
 
-const monthPill = () => `<button class="pill" data-act="month">${BULAN[ui.ym.m]} ${ui.ym.y} ${ic('down', 16)}</button>`;
+const monthPill = () => `<button class="pill" data-act="month">${BULAN[ui.ym.m]} ${ui.ym.y}${ic('down', 16)}</button>`;
+const wtag = w => w ? `<span class="wtag"><i style="background:${w.color}"></i><span class="ell">${esc(w.name)}</span></span>` : `<span class="wtag">Akun dihapus</span>`;
 
 function txRow(t) {
   const w = walletOf(t.walletId);
-  const wb = w => w ? `<span class="wdot" style="background:${w.color}">${wIcon(w)}</span>` : '';
-  let icon, title, sub, amt;
+  let mark, title, meta, amt, cls;
   if (t.type === 'transfer') {
     const to = walletOf(t.toWalletId);
-    icon = `<div class="ico" style="background:var(--soft);color:var(--accent)">${ic('swap', 20)}</div>`;
-    title = t.note || `Transfer ke ${to ? to.name : '?'}`;
-    sub = `${wb(w)}<span>${esc(w ? w.name : '?')} → ${esc(to ? to.name : '?')}</span>`;
-    amt = `<span style="color:var(--accent)">${rp(t.amount)}</span>`;
+    mark = `<span class="mark xfer">${ic('swap', 18)}</span>`;
+    title = t.note || `Pindah ke ${to ? to.name : 'akun lain'}`;
+    meta = `${wtag(w)}<span class="arrow" aria-label="ke">→</span>${wtag(to)}`;
+    amt = rp(t.amount); cls = 'xfer';
   } else {
     const c = catOf(t.catId);
-    icon = `<div class="ico" style="background:${c.color}22">${c.icon}</div>`;
+    mark = `<span class="mark" style="--c:${c.color}">${c.icon}</span>`;
     title = t.note || c.name;
-    sub = `${wb(w)}<span>${esc(w ? w.name : 'Akun dihapus')}${t.note ? ' · ' + esc(c.name) : ''}</span>`;
-    amt = `<span class="${t.type === 'in' ? 'posv' : 'neg'}">${t.type === 'in' ? '+' : '-'}${rp(t.amount)}</span>`;
+    meta = `${t.note ? `<span>${esc(c.name)}</span>` : ''}${wtag(w)}`;
+    amt = (t.type === 'in' ? '+' : '−') + rp(t.amount); cls = t.type === 'in' ? 'posv' : '';
   }
-  return `<div class="tx card" data-tx="${t.id}">${icon}
-    <div class="meta">
-      <div class="r1"><div class="title clamp2">${esc(title)}</div><div class="amt num">${amt}</div></div>
-      <div class="r2"><div class="wbadge">${sub}</div><span class="time">${esc(t.time || '')}</span></div>
-    </div>
-  </div>`;
+  return `<button class="tx" data-tx="${t.id}">${mark}
+    <span class="tx-main"><span class="tx-title clamp2">${esc(title)}</span><span class="tx-meta">${meta}</span></span>
+    <span class="tx-side"><span class="tx-amt num ${cls}" data-fit>${amt}</span><span class="tx-time num">${esc((t.time || '').replace(':', '.'))}</span></span>
+  </button>`;
 }
 
 function dayLabel(dateStr) {
@@ -837,114 +886,153 @@ function dayLabel(dateStr) {
   if (dateStr === today) return 'Hari ini';
   if (dateStr === iso(y)) return 'Kemarin';
   const d = parseD(dateStr);
-  return `${pad(d.getDate())} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
+  return `${DAYS[d.getDay()]}, ${d.getDate()} ${BULAN[d.getMonth()]}`;
 }
+const DAYS = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
-function txGroups(txs, emptyMsg) {
-  if (!txs.length) return `<div class="card empty">${emptyMsg}</div>`;
+function txGroups(txs, emptyMsg, emptyBtn = '') {
+  if (!txs.length) return `<div class="empty">${emptyMsg}${emptyBtn}</div>`;
   const groups = {};
   sortTx(txs).forEach(t => (groups[t.date] ||= []).push(t));
-  return Object.entries(groups).map(([date, list]) => {
+  return `<div>${Object.entries(groups).map(([date, list]) => {
     const i = sum(list, 'in'), o = sum(list, 'out');
-    const tot = [i ? `<span class="posv">+${rp(i)}</span>` : '', o ? `<span class="neg">-${rp(o)}</span>` : ''].filter(Boolean).join(' · ');
-    return `<div class="dayhead"><span>${dayLabel(date)}</span><span class="num">${tot}</span></div>${list.map(txRow).join('')}`;
-  }).join('');
+    return `<section class="day"><header class="dayhead"><span>${dayLabel(date)}</span><span class="num">${i ? `<span class="posv">+${rp(i)}</span>` : ''}${o ? `<span>−${rp(o)}</span>` : ''}</span></header>
+      <div class="txlist">${list.map(txRow).join('')}</div></section>`;
+  }).join('')}</div>`;
 }
 
 // ---------- Beranda ----------
+function paydayRange() {
+  const np = nextPayday();
+  const pd = state.settings.payday;
+  const at = (y, m) => new Date(y, m, Math.min(pd, new Date(y, m + 1, 0).getDate()));
+  const prev = at(np.date.getFullYear(), np.date.getMonth() - 1);
+  const total = Math.max(1, Math.round((np.date - prev) / 864e5));
+  return { ...np, prev, total, elapsed: total - np.days };
+}
+const dShort = d => `${d.getDate()} ${BLN[d.getMonth()]}`;
+
+function hero(inc, out) {
+  const left = inc - out;
+  if (!sameYM(ui.ym, nowYM())) {
+    return `<section class="hero">
+      <p class="hero-k">Sisa uang ${BULAN[ui.ym.m]} ${ui.ym.y}</p>
+      <p class="hero-v num ${left < 0 ? 'neg' : ''}" data-fit>${rp(left)}</p>
+      <p class="hero-s muted">${inc ? `${Math.max(0, Math.round(left / inc * 100))}% pemasukan nggak kepakai` : 'Nggak ada pemasukan tercatat di bulan ini.'}</p>
+    </section>`;
+  }
+  const r = paydayRange();
+  if (!inc) {
+    return `<section class="hero">
+      <p class="hero-k">Gajian berikutnya ${dShort(r.date)}, ${r.days} hari lagi</p>
+      <p class="hero-v" style="font-size:36px">Belum ada gaji bulan ini</p>
+      <p class="hero-s muted">Catat gaji lo dulu biar jatah aman per harinya kehitung.</p>
+      <button class="btn" data-act="add-salary" style="width:auto;padding:13px 22px">${ic('plus', 18, 2.4)} Catat gaji</button>
+    </section>`;
+  }
+  const daily = Math.max(0, left) / Math.max(1, r.days);
+  const tPct = Math.min(100, r.elapsed / r.total * 100);
+  const mPct = Math.min(100, out / inc * 100);
+  const ahead = mPct > tPct + 5;
+  return `<section class="hero">
+    <p class="hero-k">Jatah aman per hari sampai gajian</p>
+    <p class="hero-v num ${left < 0 ? 'neg' : ''}" data-fit>${rp(daily)}<span class="per">/hari</span></p>
+    <p class="hero-s">${left < 0 ? `<span class="neg">Udah minus ${rp(-left)} bulan ini.</span>` : `Sisa <b class="num">${rp(left)}</b> buat ${r.days} hari ke depan.`}</p>
+    <div class="track" role="img" aria-label="Waktu berjalan ${Math.round(tPct)} persen, uang terpakai ${Math.round(mPct)} persen">
+      <div class="track-row"><span>Waktu</span><div class="bar t"><i style="width:${tPct}%"></i></div><b class="num">${Math.round(tPct)}%</b></div>
+      <div class="track-row"><span>Uang</span><div class="bar m ${ahead ? 'over' : ''}"><i style="width:${mPct}%"></i></div><b class="num">${Math.round(mPct)}%</b></div>
+      <div class="track-ends"><span>Gajian ${dShort(r.prev)}</span><span>${dShort(r.date)}</span></div>
+    </div>
+    ${ahead ? `<p class="note">Uang kepake lebih cepat dari waktunya. Coba rem dikit sampai garisnya sejajar.</p>` : ''}
+  </section>`;
+}
+
+function topSpend(txs, out) {
+  if (!out) return '';
+  const byCat = {};
+  txs.filter(t => t.type === 'out').forEach(t => byCat[t.catId] = (byCat[t.catId] || 0) + t.amount);
+  const [id, v] = Object.entries(byCat).sort((a, b) => b[1] - a[1])[0];
+  return `<p class="note">Paling banyak keluar buat <b>${esc(catOf(id).name)}</b>, ${Math.round(v / out * 100)}% dari pengeluaran.</p>`;
+}
+
 function renderHome() {
   const txs = txsOfMonth(ui.ym);
   const inc = sum(txs, 'in'), out = sum(txs, 'out');
-  const net = inc - out;
-  const FILTERS = { all: 'Semua', in: 'Pemasukan', out: 'Pengeluaran', transfer: 'Transfer' };
+  const FILTERS = { all: 'Semua', in: 'Pemasukan', out: 'Pengeluaran', transfer: 'Pindah saldo' };
   const list = ui.filter === 'all' ? txs : txs.filter(t => t.type === ui.filter);
-
-  return `<div class="layout"><div class="col-a"><div class="topbar">
-      <button class="icon-btn" data-act="settings" aria-label="Pengaturan" style="position:relative">${ic('user', 20)}${sb && session ? `<i class="sdot" id="syncDot" data-s="${syncInfo.state}"></i>` : ''}</button>
+  return `<div class="layout"><div class="col-a">
+    <div class="topbar">
+      <button class="icon-btn" data-act="settings" aria-label="Pengaturan" style="position:relative">${ic('user', 20, 1.8)}${sb && session ? `<i class="sdot" id="syncDot" data-s="${syncInfo.state}"></i>` : ''}</button>
       ${monthPill()}
-      <button class="icon-btn" data-act="hide" aria-label="Sembunyikan saldo">${ic(prefs.hide ? 'eyeoff' : 'eye', 20)}</button>
+      <button class="icon-btn" data-act="hide" aria-label="${prefs.hide ? 'Tampilkan saldo' : 'Sembunyikan saldo'}">${ic(prefs.hide ? 'eyeoff' : 'eye', 20, 1.8)}</button>
     </div>
-    <div class="saldo">
-      <div class="lbl">Total Saldo</div>
-      <div class="big num" data-fit>${rpH(totalBalance())}</div>
-      <span class="delta num">${ic(net >= 0 ? 'up' : 'down', 14)} <span class="ell">${net >= 0 ? '+' : '-'}${rp(Math.abs(net))} bulan ini</span></span>
+    ${hero(inc, out)}
+    <div class="figs">
+      <div><span>Masuk</span><b class="num posv" data-fit>${rp(inc)}</b></div>
+      <div><span>Keluar</span><b class="num" data-fit>${rp(out)}</b></div>
+      <button data-tab-go="wallet"><span>Saldo akun</span><b class="num" data-fit>${rpH(totalBalance())}</b></button>
     </div>
-    <div class="sec"><h2>Keuangan Anda</h2><button class="tag" data-tab-go="report">Detail ${ic('right', 14)}</button></div>
-    <div class="duo">
-      <div class="card stat"><div class="ico" style="background:var(--in-soft)">💵</div><div class="small muted">Pemasukan</div><div class="v num" data-fit>${rp(inc)}</div></div>
-      <div class="card stat"><div class="ico" style="background:var(--out-soft)">🧾</div><div class="small muted">Pengeluaran</div><div class="v num" data-fit>${rp(out)}</div></div>
-    </div>
-    ${insight(txs, inc, out)}
-    <div class="sec"><h2>Kantong</h2><button class="tag" data-act="mpockets">Atur ${ic('right', 14)}</button></div>
-    ${pocketStrip(inc)}</div>
-    <div class="col-b"><div class="sec"><h2>Transaksi</h2><button class="tag" data-act="filter">${FILTERS[ui.filter]} ${ic('down', 14)}</button></div>
-    ${txGroups(list, txs.length ? 'Nggak ada transaksi buat filter ini.' : 'Belum ada transaksi bulan ini.<br><span class="small">Tekan tombol <b>+</b> buat mulai nyatet.</span>')}</div></div>`;
-}
-
-function insight(txs, inc, out) {
-  const parts = [];
-  if (sameYM(ui.ym, nowYM())) {
-    const np = nextPayday();
-    const left = inc - out;
-    if (inc > 0) parts.push(`Sisa bulan ini <b class="num">${rp(left)}</b>. Biar aman sampai gajian (${np.days} hari lagi), jatahnya <b class="num">${rp(Math.max(0, left) / Math.max(1, np.days))}</b>/hari.`);
-    else parts.push(`${np.days} hari lagi gajian (tgl ${state.settings.payday}). Catat gaji lo sebagai <b>Pemasukan</b> biar jatah harian kehitung.`);
-  }
-  const byCat = {};
-  txs.filter(t => t.type === 'out').forEach(t => byCat[t.catId] = (byCat[t.catId] || 0) + t.amount);
-  const top = Object.entries(byCat).sort((a, b) => b[1] - a[1])[0];
-  if (top) parts.push(`Paling boros di <b>${esc(catOf(top[0]).name)}</b> (${Math.round(top[1] / out * 100)}%).`);
-  if (!parts.length) return '';
-  return `<div class="card insight"><span class="spark">${ic('spark', 18)}</span><div>${parts.join(' ')}</div></div>`;
+    ${topSpend(txs, out)}
+    <div class="sec"><h2>Kantong</h2><button class="link-btn" data-act="mpockets">Atur</button></div>
+    ${pocketStrip(inc)}
+  </div>
+  <div class="col-b">
+    <div class="sec"><h2>Transaksi</h2><button class="tag" data-act="filter">${FILTERS[ui.filter]}${ic('down', 14)}</button></div>
+    ${txGroups(list, txs.length ? 'Nggak ada transaksi buat filter ini.' : `Belum ada transaksi di ${BULAN[ui.ym.m]}.`, txs.length ? '' : `<br><button class="btn" data-act="manual">${ic('plus', 18, 2.4)} Catat transaksi</button>`)}
+  </div></div>`;
 }
 
 function pocketCard(p) {
   const st = pocketStats(p);
   const save = p.kind === 'save';
-  let main, sub, pct;
+  let main, sub, fill, over = false;
   if (save) {
     main = rp(st.saved);
-    pct = p.goal ? st.saved / p.goal * 100 : p.amount ? st.used / p.amount * 100 : 0;
-    sub = p.goal ? `Target ${rp(p.goal)}` : p.amount ? `Bulan ini ${rp(st.used)} / ${rp(p.amount)}` : 'Terkumpul';
+    fill = p.goal ? st.saved / p.goal * 100 : st.saved > 0 ? 100 : 0;
+    sub = p.goal ? `dari target ${rp(p.goal)}` : 'terkumpul';
   } else if (p.amount) {
-    main = rp(st.left); pct = st.pct;
-    sub = st.left < 0 ? 'Kelewatan!' : `Sisa dari ${rp(p.amount)}`;
+    main = rp(st.left);
+    fill = Math.max(0, st.left / p.amount * 100);
+    over = st.left < 0;
+    sub = over ? 'kelewatan jatahnya' : `sisa dari ${rp(p.amount)}`;
   } else {
-    main = rp(st.used); pct = 0; sub = 'Belum ada jatah';
+    main = rp(st.used); fill = 0; sub = 'kepake, belum ada jatah';
   }
-  return `<button class="card pcard" data-pocket="${p.id}">
-    <div class="top"><span class="cico" style="background:${p.color}22;width:30px;height:30px;font-size:16px">${p.icon}</span><b class="ell grow">${esc(p.name)}</b></div>
-    <span class="v num ${!save && st.left < 0 && p.amount ? 'neg' : ''}" data-fit>${main}</span>
-    <span class="small muted ell">${sub}</span>
-    <div class="bar ${barCls(pct, save)}"><i style="width:${Math.min(100, pct)}%;${save ? 'background:var(--in)' : ''}"></i></div>
+  return `<button class="env ${over ? 'over' : ''}" data-pocket="${p.id}" style="--c:${p.color}" aria-label="Kantong ${esc(p.name)}, ${main}, ${sub}">
+    <span class="env-fill" style="height:${Math.min(100, fill)}%"></span>
+    <span class="env-flap"></span>
+    <span class="env-body"><span class="env-name"><span>${p.icon}</span><span class="ell">${esc(p.name)}</span></span>
+      <span class="env-v num" data-fit>${main}</span><span class="env-s ell">${sub}</span></span>
   </button>`;
 }
 function pocketStrip(inc) {
   const free = inc - allocated();
-  const freeCard = inc ? `<button class="card pcard free" data-act="mpockets">
-      <div class="top"><span class="cico" style="background:var(--card);width:30px;height:30px;font-size:16px">🪙</span><b class="ell grow">Belum dibagi</b></div>
-      <span class="v num ${free < 0 ? 'neg' : ''}" data-fit>${rp(free)}</span>
-      <span class="small muted ell">${free < 0 ? 'Jatah lebih dari gaji' : 'dari pemasukan'}</span></button>` : '';
-  return `<div class="pockets">${freeCard}${state.pockets.map(pocketCard).join('')}<button class="card pcard add" data-act="newpocket">${ic('plus', 22)}<span>Kantong</span></button></div>`;
+  const freeCard = inc ? `<button class="env free" data-act="mpockets" aria-label="Belum dibagi ke kantong, ${rp(free)}">
+      <span class="env-body"><span class="env-name">Belum dibagi</span>
+      <span class="env-v num ${free < 0 ? 'neg' : ''}" data-fit>${rp(free)}</span><span class="env-s ell">${free < 0 ? 'jatah lebih dari gaji' : 'dari pemasukan'}</span></span></button>` : '';
+  return `<div class="pockets">${freeCard}${state.pockets.map(pocketCard).join('')}<button class="env add" data-act="newpocket">${ic('plus', 22)}<span>Kantong</span></button></div>`;
 }
 
 // ---------- Dompet ----------
 function renderWallet() {
   const ws = state.wallets;
-  const card = w => `<button class="wcard" data-wallet="${w.id}" style="background:linear-gradient(135deg, ${w.color}, ${w.color}cc)">
-      <div class="row spread" style="align-items:flex-start"><div class="grow"><div class="nm ell">${esc(w.name)}</div><div class="small ell" style="opacity:.85">${esc(w.note || '')}</div></div><span class="wdot" style="background:rgba(255,255,255,.2);width:36px;height:36px;border-radius:50%;font-size:10px">${wIcon(w)}</span></div>
-      <div><div class="small" style="opacity:.85">Saldo</div><div class="bal num" data-fit>${rpH(balanceOf(w))}</div></div>
+  const card = w => `<button class="wcard" data-wallet="${w.id}" style="background:${w.color}">
+      <div class="row spread" style="align-items:flex-start"><div class="grow"><div class="nm ell">${esc(w.name)}</div><div class="small ell" style="opacity:.82">${esc(w.note || WTYPES.find(t => t[0] === w.type)?.[1] || '')}</div></div><span class="wdot" style="background:rgba(255,255,255,.18);width:34px;height:34px;border-radius:10px;font-size:10px">${wIcon(w)}</span></div>
+      <div class="bal num" data-fit>${rpH(balanceOf(w))}</div>
     </button>`;
-  return `<div class="layout"><div class="col-a"><div class="page-head"><div class="grow"><div class="small muted">Saldo Semua Akun</div><div style="font-size:30px;font-weight:700;letter-spacing:-.02em" class="num" data-fit>${rpH(totalBalance())}</div></div>
-      <button class="icon-btn" data-act="hide" aria-label="Sembunyikan saldo">${ic(prefs.hide ? 'eyeoff' : 'eye', 20)}</button></div>
+  return `<div class="layout"><div class="col-a">
+    <div class="page-head"><h1>Dompet</h1><button class="icon-btn" data-act="hide" aria-label="${prefs.hide ? 'Tampilkan saldo' : 'Sembunyikan saldo'}">${ic(prefs.hide ? 'eyeoff' : 'eye', 20, 1.8)}</button></div>
+    <section class="hero small"><p class="hero-k">Saldo semua akun</p><p class="hero-v num" data-fit>${rpH(totalBalance())}</p></section>
     <div class="cards">${ws.map(card).join('')}</div>
     <div class="actions">
-      <button class="card action" data-act="transfer"><span class="ico">${ic('swap', 18)}</span><div class="grow"><b>Transfer</b><div class="small muted clamp2">Pindah saldo</div></div></button>
-      <button class="card action" data-act="addwallet"><span class="ico">${ic('plus', 18)}</span><div class="grow"><b>Akun Baru</b><div class="small muted clamp2">Tambah sumber dana</div></div></button>
-    </div></div>
-    <div class="col-b"><div class="sec"><h2>Daftar Akun & Rekening</h2><span class="small muted" style="flex:none">${ws.length} Akun</span></div>
-    ${ws.map(walletRow).join('')}</div></div>`;
+      <button class="action" data-act="transfer">${ic('swap', 18)}Pindah saldo</button>
+      <button class="action" data-act="addwallet">${ic('plus', 18)}Tambah akun</button>
+    </div>
+  </div>
+  <div class="col-b"><div class="sec"><h2>Semua akun</h2><span class="small muted" style="flex:none">${ws.length} akun</span></div>
+    <div class="txlist">${ws.map(walletRow).join('')}</div></div></div>`;
 }
-const walletRow = w => `<button class="card wrow" data-wallet="${w.id}">
+const walletRow = w => `<button class="wrow" data-wallet="${w.id}">
     <span class="wdot" style="background:${w.color}">${wIcon(w)}</span>
     <div class="grow"><b class="clamp2" style="line-height:1.25">${esc(w.name)}</b><div class="small muted clamp2">${esc(w.note || WTYPES.find(t => t[0] === w.type)?.[1] || '')}</div></div>
     <span class="bal num" data-fit style="max-width:52%">${rpH(balanceOf(w))}</span>
@@ -959,27 +1047,29 @@ function renderActivity() {
   const first = (new Date(y, m, 1).getDay() + 6) % 7;
   const days = new Date(y, m + 1, 0).getDate();
   const today = iso(new Date());
-  let cells = ['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'].map(d => `<div class="wd">${d}</div>`).join('');
+  let cells = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'].map(d => `<div class="wd">${d}</div>`).join('');
   cells += '<div></div>'.repeat(first);
   for (let d = 1; d <= days; d++) {
     const ds = `${y}-${pad(m + 1)}-${pad(d)}`;
     const o = byDay[ds];
-    const dots = o ? `${o.out ? '<i style="background:var(--out)"></i>' : ''}${o.in ? '<i style="background:var(--in)"></i>' : ''}${!o.in && !o.out ? '<i style="background:var(--accent)"></i>' : ''}` : '';
-    cells += `<button class="d ${ds === today ? 'today' : ''} ${ds === ui.selDate ? 'sel' : ''}" data-day="${ds}">${d}<span class="dots">${dots}</span></button>`;
+    const dots = o ? `${o.out ? '<i style="background:var(--out)"></i>' : ''}${o.in ? '<i style="background:var(--in)"></i>' : ''}${!o.in && !o.out ? '<i style="background:var(--ink-2)"></i>' : ''}` : '';
+    cells += `<button class="d ${ds === today ? 'today' : ''} ${ds === ui.selDate ? 'sel' : ''}" data-day="${ds}" aria-label="${d} ${BULAN[m]}${o ? `, ${o.n} transaksi` : ''}">${d}<span class="dots">${dots}</span></button>`;
   }
   let list = ui.selDate ? txs.filter(t => t.date === ui.selDate) : txs;
   const inc = sum(list, 'in'), out = sum(list, 'out');
   if (ui.statFilter) list = list.filter(t => t.type === ui.statFilter);
   const sd = ui.selDate ? parseD(ui.selDate) : null;
   return `<div class="page-head"><h1>Aktivitas</h1>${monthPill()}</div>
-    <div class="layout"><div class="col-a"><div class="card cal"><div class="grid">${cells}</div>
-      ${sd ? `<div class="banner"><span class="ell">${sd.getDate()} ${BULAN[sd.getMonth()]} · ${byDay[ui.selDate]?.n || 0} transaksi</span><button data-act="clearday">Semua ${ic('x', 14)}</button></div>` : ''}
+    <div class="layout"><div class="col-a">
+      <div class="panel cal"><div class="grid">${cells}</div>
+        ${sd ? `<div class="banner"><span>${DAYS[sd.getDay()]}, ${sd.getDate()} ${BULAN[sd.getMonth()]}: ${byDay[ui.selDate]?.n || 0} transaksi</span><button data-act="clearday">Lihat sebulan</button></div>` : ''}
+      </div>
+      <div class="figs two">
+        <button class="${ui.statFilter === 'out' ? 'on' : ''}" data-stat="out"><span>Keluar</span><b class="num" data-fit>${rp(out)}</b></button>
+        <button class="${ui.statFilter === 'in' ? 'on' : ''}" data-stat="in"><span>Masuk</span><b class="num posv" data-fit>${rp(inc)}</b></button>
+      </div>
     </div>
-    <div class="duo">
-      <button class="card stat ${ui.statFilter === 'out' ? 'on' : ''}" data-stat="out"><div class="small muted">Pengeluaran</div><div class="v num neg" data-fit>${rp(out)}</div></button>
-      <button class="card stat ${ui.statFilter === 'in' ? 'on' : ''}" data-stat="in"><div class="small muted">Pemasukan</div><div class="v num posv" data-fit>${rp(inc)}</div></button>
-    </div></div>
-    <div class="col-b">${txGroups(list, ui.selDate ? 'Nggak ada transaksi di tanggal ini.' : 'Belum ada transaksi bulan ini.')}</div></div>`;
+    <div class="col-b">${txGroups(list, ui.selDate ? 'Nggak ada transaksi di tanggal ini.' : `Belum ada transaksi di ${BULAN[ui.ym.m]}.`)}</div></div>`;
 }
 
 // ---------- Laporan ----------
@@ -995,51 +1085,53 @@ function renderReport() {
   const segs = rows.map(r => {
     const len = r.v / out * C;
     const gap = rows.length > 1 ? Math.min(3, len / 2) : 0;
-    const s = `<circle r="${R}" cx="80" cy="80" fill="none" stroke="${r.c.color}" stroke-width="20" stroke-dasharray="${Math.max(0, len - gap)} ${C}" stroke-dashoffset="${-acc}" transform="rotate(-90 80 80)"/>`;
+    const s = `<circle r="${R}" cx="80" cy="80" fill="none" stroke="${r.c.color}" stroke-width="18" stroke-dasharray="${Math.max(0, len - gap)} ${C}" stroke-dashoffset="${-acc}" transform="rotate(-90 80 80)"/>`;
     acc += len;
     return s;
   }).join('');
   const centerTxt = rp(out);
   const cfs = centerTxt.length > 14 ? 11 : centerTxt.length > 11 ? 13 : 15;
-  const donut = out ? `<div class="card donut-wrap">
-      <svg width="170" height="170" viewBox="0 0 160 160"><circle r="${R}" cx="80" cy="80" fill="none" stroke="var(--card2)" stroke-width="20"/>${segs}
-      <text x="80" y="74" text-anchor="middle" font-size="11" fill="var(--muted)">Pengeluaran</text>
-      <text x="80" y="94" text-anchor="middle" font-size="${cfs}" font-weight="700" fill="var(--text)">${esc(centerTxt)}</text></svg>
+  const donut = out ? `<div class="panel donut-wrap">
+      <svg width="170" height="170" viewBox="0 0 160 160" role="img" aria-label="Pengeluaran per kategori"><circle r="${R}" cx="80" cy="80" fill="none" stroke="var(--sunk)" stroke-width="18"/>${segs}
+      <text x="80" y="74" text-anchor="middle" font-size="11" fill="var(--ink-2)">Keluar</text>
+      <text x="80" y="94" text-anchor="middle" font-size="${cfs}" font-weight="700" fill="var(--ink)" style="font-family:var(--display)">${esc(centerTxt)}</text></svg>
       <div class="legend">${rows.map(r => `<div class="li"><span class="sw" style="background:${r.c.color}"></span><span class="clamp2 grow" style="line-height:1.3">${r.c.icon} ${esc(r.c.name)}</span><span class="v num"><b>${rp(r.v)}</b> <span class="muted small">${Math.round(r.v / out * 100)}%</span></span></div>`).join('')}</div>
-    </div>` : `<div class="card empty">Belum ada pengeluaran di ${BULAN[ui.ym.m]}.</div>`;
+    </div>` : `<div class="empty">Belum ada pengeluaran di ${BULAN[ui.ym.m]}.</div>`;
 
-  const pocketHtml = state.pockets.length ? state.pockets.map(p => {
+  const pocketHtml = state.pockets.length ? `<div class="txlist">${state.pockets.map(p => {
     const st = pocketStats(p);
     const save = p.kind === 'save';
     const pct = save ? (p.goal ? st.saved / p.goal * 100 : p.amount ? st.used / p.amount * 100 : 0) : st.pct;
     const foot = save
-      ? `<span>Bulan ini ${rp(st.used)}${p.amount ? ' / ' + rp(p.amount) : ''}</span><span>Terkumpul ${rp(st.saved)}${p.goal ? ' / ' + rp(p.goal) : ''}</span>`
+      ? `<span>Bulan ini ${rp(st.used)}${p.amount ? ' dari ' + rp(p.amount) : ''}</span><span>Terkumpul ${rp(st.saved)}${p.goal ? ' dari ' + rp(p.goal) : ''}</span>`
       : p.amount ? `<span>${rp(st.used)} dari ${rp(p.amount)}</span>${st.left < 0 ? `<span class="neg">Lewat ${rp(-st.left)}</span>` : `<span>Sisa ${rp(st.left)}</span>`}`
       : `<span>Kepake ${rp(st.used)}</span><span>Belum ada jatah</span>`;
-    return `<button class="card budget prow" data-pocket="${p.id}">
-      <div class="row spread"><span class="ell grow"><span>${p.icon}</span> <b>${esc(p.name)}</b></span><span class="pct num ${!save && pct > 100 ? 'neg' : ''}">${Math.round(pct)}%</span></div>
-      <div class="bar ${barCls(pct, save)}"><i style="width:${Math.min(100, pct)}%;${save ? 'background:var(--in)' : ''}"></i></div>
+    return `<button class="budget prow" data-pocket="${p.id}">
+      <div class="row spread"><span class="ell grow"><span>${p.icon}</span> <b>${esc(p.name)}</b></span><span class="pct num ${!save && pct > 100 ? 'neg' : 'muted'}">${Math.round(pct)}%</span></div>
+      <div class="bar ${barCls(pct, save)}"><i style="width:${Math.min(100, pct)}%;background:${save ? 'var(--in)' : pct > 100 ? 'var(--out)' : p.color}"></i></div>
       <div class="foot num">${foot}</div></button>`;
-  }).join('') : `<div class="card empty">Belum ada kantong.</div>`;
+  }).join('')}</div>` : `<div class="empty">Belum ada kantong.</div>`;
 
   const months = [-5, -4, -3, -2, -1, 0].map(n => shiftYM(ui.ym, n));
   const flows = months.map(ym => { const t = txsOfMonth(ym); return { ym, in: sum(t, 'in'), out: sum(t, 'out') }; });
   const max = Math.max(1, ...flows.map(f => Math.max(f.in, f.out)));
-  const flow = `<div class="card flow">
-    <div class="keys"><span><i style="background:var(--in)"></i>Pemasukan</span><span><i style="background:var(--out)"></i>Pengeluaran</span></div>
-    <div class="bars">${flows.map(f => `<div class="col"><i style="height:${f.in / max * 100}%;background:var(--in)"></i><i style="height:${f.out / max * 100}%;background:var(--out)"></i></div>`).join('')}</div>
+  const flow = `<div class="panel flow">
+    <div class="keys"><span><i style="background:var(--in)"></i>Masuk</span><span><i style="background:var(--ink-2)"></i>Keluar</span></div>
+    <div class="bars" role="img" aria-label="Pemasukan dan pengeluaran 6 bulan terakhir">${flows.map(f => `<div class="col"><i style="height:${f.in / max * 100}%;background:var(--in)"></i><i style="height:${f.out / max * 100}%;background:var(--ink-2)"></i></div>`).join('')}</div>
     <div class="lbls">${flows.map(f => `<span class="${sameYM(f.ym, ui.ym) ? 'on' : ''}">${BLN[f.ym.m]}</span>`).join('')}</div>
   </div>`;
 
   const saveRate = inc ? Math.round((inc - out) / inc * 100) : null;
   return `<div class="page-head"><h1>Laporan</h1>${monthPill()}</div>
-    <div class="layout"><div class="col-a"><div class="duo">
-      <div class="card stat"><div class="small muted">Selisih bulan ini</div><div class="v num ${inc - out < 0 ? 'neg' : 'posv'}" data-fit>${rp(inc - out)}</div></div>
-      <div class="card stat"><div class="small muted">Rasio nabung</div><div class="v num" data-fit>${saveRate === null ? '–' : saveRate + '%'}</div></div>
+    <div class="layout"><div class="col-a">
+      <div class="figs two">
+        <div><span>Selisih bulan ini</span><b class="num ${inc - out < 0 ? 'neg' : 'posv'}" data-fit>${rp(inc - out)}</b></div>
+        <div><span>Yang kesimpen</span><b class="num" data-fit>${saveRate === null ? '–' : saveRate + '% dari gaji'}</b></div>
+      </div>
+      <div class="sec"><h2>Per kategori</h2><button class="link-btn" data-act="mcat-out">Kelola</button></div>${donut}
     </div>
-    <div class="sec"><h2>Per Kategori</h2><button class="link-btn" data-act="mcat-out">Kelola</button></div>${donut}</div>
     <div class="col-b"><div class="sec"><h2>Kantong</h2><button class="link-btn" data-act="mpockets">Atur</button></div>${pocketHtml}
-    <div class="sec"><h2>Arus Kas 6 Bulan</h2></div>${flow}</div></div>`;
+      <div class="sec"><h2>6 bulan terakhir</h2></div>${flow}</div></div>`;
 }
 
 // ================= sheet =================
@@ -1132,7 +1224,7 @@ function pocketField() {
   const chips = state.pockets.map(p => {
     const st = pocketBefore(p);
     const sub = p.kind === 'save' ? rp(st.saved) : p.amount ? `sisa ${rp(st.left)}` : 'tanpa jatah';
-    return `<button class="chip ${cur?.id === p.id ? 'on' : ''}" data-pk="${p.id}">${p.icon} ${esc(p.name)}<span class="sub ${p.kind !== 'save' && p.amount && st.left < 0 ? 'neg' : ''}">· ${sub}</span></button>`;
+    return `<button class="chip ${cur?.id === p.id ? 'on' : ''}" data-pk="${p.id}">${p.icon} ${esc(p.name)}<span class="sub ${p.kind !== 'save' && p.amount && st.left < 0 ? 'neg' : ''}">${sub}</span></button>`;
   }).join('');
   return `<div class="lbl"><span>Ambil dari kantong</span><span>${draft._pocketManual ? `<button class="link-btn" data-act="pk-auto">Ikut kategori</button>` : 'otomatis dari kategori'}</span></div>
     <div class="chips">${chips}<button class="chip ${!cur ? 'on' : ''}" data-pk="">Tanpa kantong</button></div>
@@ -1357,7 +1449,7 @@ function openManagePockets(fromSettings) {
       <div class="card stat"><div class="small muted">Belum dibagi</div><div class="v num ${inc - al < 0 ? 'neg' : ''}" data-fit>${inc ? rp(inc - al) : '–'}</div></div>
     </div>
     <button class="btn" style="margin-bottom:14px" data-act="newpocket">${ic('plus', 18, 2.4)} Tambah kantong</button>
-    <div class="menu-list">${state.pockets.map(p => `<button data-editpocket="${p.id}"><span class="left"><span class="cico" style="background:${p.color}22">${p.icon}</span><span class="grow"><span class="ell" style="display:block">${esc(p.name)}</span><span class="small muted ell" style="display:block">${p.catIds.length} kategori${p.kind === 'save' ? ' · Tabungan' : ''}</span></span></span><span class="right num">${p.amount ? rp(p.amount) : 'Atur jatah'}${ic('right', 16)}</span></button>`).join('')}</div>`,
+    <div class="menu-list">${state.pockets.map(p => `<button data-editpocket="${p.id}"><span class="left"><span class="cico" style="background:${p.color}22">${p.icon}</span><span class="grow"><span class="ell" style="display:block">${esc(p.name)}</span><span class="small muted ell" style="display:block">${p.catIds.length} kategori${p.kind === 'save' ? ', tabungan' : ''}</span></span></span><span class="right num">${p.amount ? rp(p.amount) : 'Atur jatah'}${ic('right', 16)}</span></button>`).join('')}</div>`,
     fromSettings ? openSettings : null);
 }
 function openPocketDetail(id) {
@@ -1374,7 +1466,7 @@ function openPocketDetail(id) {
       ${save && p.goal ? `<div class="row spread" style="margin-top:6px"><span class="muted">Target</span><b class="num">${rp(p.goal)}</b></div>` : ''}
       <div class="small muted" style="margin-top:8px">Isi: ${p.catIds.map(id => catOf(id)).filter(Boolean).map(c => `${c.icon} ${esc(c.name)}`).join(', ') || 'belum ada kategori'}</div>
     </div>
-    <button class="btn ghost" style="margin-bottom:6px" data-editpocket="${p.id}">Edit kantong</button>
+    <button class="btn ghost" style="margin-bottom:16px" data-editpocket="${p.id}">Edit kantong</button>
     ${txGroups(st.txs, 'Belum ada transaksi di kantong ini bulan ini.')}`);
 }
 let pdraft = null, pBack = null;
@@ -1581,7 +1673,7 @@ function openSettings() {
       <button data-act="reset" style="color:var(--out)">Hapus semua data</button>
     </div>
     <input type="file" id="importFile" accept="application/json,.json" hidden>
-    <div class="small muted" style="text-align:center">Gajian v5 · ${state.txs.length} transaksi · ${state.wallets.length} akun · ${state.categories.length} kategori</div>`);
+    <div class="small muted" style="text-align:center">Gajian v6, ${state.txs.length} transaksi, ${state.wallets.length} akun, ${state.categories.length} kategori</div>`);
 }
 function openMonth() {
   let y = ui.ym.y;
@@ -1687,6 +1779,7 @@ document.addEventListener('click', e => {
     case 'signout': signOut(); break;
     case 'fab': toggleFab(); break;
     case 'manual': toggleFab(false); openTx(); break;
+    case 'add-salary': openTx(); draft.type = 'in'; draft.catId = 'gaji'; draft.note = `Gaji ${BULAN[new Date().getMonth()]}`; renderTxSheet(); break;
     case 'voice': toggleFab(false); openVoice(); break;
     case 'transfer':
       toggleFab(false);
